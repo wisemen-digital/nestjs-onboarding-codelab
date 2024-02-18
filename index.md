@@ -18,7 +18,7 @@ status: Draft
 Welcome to the backend onboarding! In this onboarding you will learn how development happens at Wisemen.
 You will learn how to work with NodeJs, TablePlus, Figma, Github and Jira.
 
-This onboarding is designed to be completed in roughly 3-4 days. 
+This onboarding is designed to be completed in roughly 3-4 days.
 This does not mean you have to complete it in 3-4 days. People with more experience will be able to complete it faster than people with less experience.
 
 You will be working on a small to-do app.
@@ -148,24 +148,15 @@ To install Node.js using Homebrew, follow these steps:
 #### Version Control
 
 - **Git**: Our preferred version control system for tracking code changes and collaborating with the team.
-- [**Bitbucket**](https://bitbucket.org/appwise/workspace/overview) / Github: We use Bitbucket and Github as our Git repository hosting service for managing our codebase and collaborating on projects.
+- [**Github**](https://github.com/wisemen-digital): We use Github (and previously [Bitbucket](https://bitbucket.org/appwise/workspace/overview)) as our Git repository hosting service for managing our codebase and collaborating on projects.
 
 
 ### IDE
 
 There are 2 different IDE's used in this company. You can use either **Visual Studio Code** or **WebStorm**.
 
-#### WebStorm
-WebStorm is a JavaScript IDE with complete set of tools for client-side and server-side development and testing.
-It provides code completion, on-the-fly error detection, powerful navigation and refactoring for JavaScript, TypeScript, CSS, HTML and more.
-
-Webstorm is a paid IDE. You can get a license from Wisemen. Ask your buddy!
-
-[Download WebStorm](https://www.jetbrains.com/webstorm/download)
-
-
 #### Visual Studio Code
-Visual Studio Code is a source-code editor developed by Microsoft for Windows, Linux and macOS. 
+Visual Studio Code is a source-code editor developed by Microsoft for Windows, Linux and macOS.
 It includes support for debugging, syntax highlighting, intelligent code completion, snippets, and code refactoring.
 
 Visual Studio Code is a free IDE. You can download it from the website.
@@ -174,6 +165,13 @@ Visual Studio Code is a free IDE. You can download it from the website.
 
 Choose the IDE you want to work with and download it.
 
+#### WebStorm
+WebStorm is a JavaScript IDE with complete set of tools for client-side and server-side development and testing.
+It provides code completion, on-the-fly error detection, powerful navigation and refactoring for JavaScript, TypeScript, CSS, HTML and more.
+
+Webstorm is a paid IDE. You can get a license from Wisemen. Ask your buddy!
+
+[Download WebStorm](https://www.jetbrains.com/webstorm/download)
 
 ### Figma
 Our designers work with **Figma**.
@@ -190,16 +188,17 @@ You can view all of our designs here:
 To access the designs you need, you need to log in with your Wisemen account.
 the designs you need for this onboarding are: [Todo-app designs](https://www.figma.com/file/hebgv4Qx8VanMAQkO1NFpa/Onboarding-to-do?node-id=407-4095&t=2qdyy89lKwN7dFw3-0)
 
-### Github repository
+### Github
 Github is a web-based version control repository hosting service, for source code and development projects that use the Git revision control system.
 
 All your future projects will be hosted on Github.
 
 [Wisemen Github](https://github.com/wisemen-digital)
 
-If you are not yet familiar with Bitbucket and/or Git, Here is great article to get you started:
+If you are not yet familiar with Github and/or Git, Here is great article to get you started:
 [Github Git tutorial](https://docs.github.com/en/get-started/quickstart/hello-world)
 
+#### Pull Requests
 We also expect you to make pull request of your work so your buddy can review your code and keep track of your progress.
 In the article above you can find a section about pull requests to get you started!
 
@@ -220,7 +219,7 @@ The Jira contains all the requirements for creating the to-do app.
 
 ### Project explanation
 
-You will be creating the backend for a simple to-do app. In the app they can  create, edit, delete, check and uncheck to-do's.
+You will be creating the backend for a simple to-do app. In the app it's possible to create, edit, delete, check and uncheck to-do's.
 
 ### Designs
 
@@ -228,20 +227,20 @@ You will be creating the backend for a simple to-do app. In the app they can  cr
 
 ## Project setup
 
-### 1. Clone the Wisemen-Nest-Core from Github
+### 1. Clone the Wisemen NestJS Template from Github
 
-You can kickstart your new project without starting from square one by utilizing the [Wisemen-Nest-Core repository](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project.
+You can kickstart your new project without starting from square one by utilizing the [Wisemen NestJS Template repository](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project.
 
 ### 2. Package.json
 
-> The package.json file is used to give information to npm that allows it to identify the project as well as handle the
-> project's dependencies. npm can install the packages you specify in your package.json file.
-> The main use of the package.json file is to list the packages that your project depends on and to ensure that your 
-> colleagues get the same packages when they do `npm install`.
+> The package.json file is used to give information to pnpm that allows it to identify the project as well as handle the
+> project's dependencies. pnpm can install the packages you specify in your package.json file.
+> The main use of the package.json file is to list the packages that your project depends on and to ensure that your
+> colleagues get the same packages when they do `pnpm install`.
 
 #### 2.1 Scripts
 
-> The scripts property is used to specify a list of scripts that can be run using `npm run <script-name>`.
+> The scripts property is used to specify a list of scripts that can be run using `pnpm <script-name>`.
 > It's written as a JSON object where each key is the name of a script and the value is the command to run for.
 > Most common scripts are `start` and `build`.
 
@@ -313,7 +312,8 @@ if (errors.length() === 0) {
 ## Project Structure
 
 ### Folder structure
-For this project we will be using a ‘split-by-type' folder structure. This is recommended for small applications.
+
+For this project we will be using a ‘split-by-feature' folder structure.
 
 ```
 - src
@@ -336,7 +336,7 @@ For this project we will be using a ‘split-by-type' folder structure. This is 
 
 ### File naming conventions
 As seen above the filename template is the following: <br />
-`name-of-the-file.type-of-thing.ts` 
+`name-of-the-file.type-of-thing.ts`
 
 ### Project structure
 <img width="600" src="img/projectStructure/project-structure.svg">
@@ -389,8 +389,8 @@ The Todo entity is a simple data structure that represents a todo item. It inclu
 
 - **uuid**: A unique identifier for the todo item.
 - **title**: The title of the todo item.
-- **description**: An nullable description for the todo item.
-- **deadline**: An nullable deadline for the todo item.
+- **description**: A nullable description for the todo item.
+- **deadline**: A nullable deadline for the todo item.
 - **completed**: A boolean value indicating whether the todo item is completed (default: false).
 
 To view all possible column types using Typeorm with Postgresql, see [docs](https://orkhan.gitbook.io/typeorm/docs/entities#column-types)
@@ -491,15 +491,15 @@ Now the Todo entity has a many-to-one relationship with the User entity, and the
 
 After defining the Todo entity and its relation with the User entity, you need to create a migration to apply the changes to the database schema.
 
-First add your entity to the `models.ts` file in the `src/config/sql/models` folder.
+First import your entity in the `models.ts` file in the `src/config/sql/models` folder.
 
 Next, run the following command in your terminal:
 
 ```bash
-pnpm typeorm migration:create CreateTodoEntity
+pnpm typeorm migration:create src/config/sql/migrations/CreateTodoEntity
 ```
 
-This command creates a new migration file with the name `CreateTodoEntity`. Add this file to the `src/config/sql/migrations` folder and add the generated migration class to the `mainMigrations` in the `index.ts` file.
+This command creates a new migration file with the name `CreateTodoEntity.ts`. Add the generated migration class to the `mainMigrations` in the `index.ts` file.
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
@@ -529,7 +529,7 @@ export class CreateTodoDto {
 }
 ```
 
-In the code above, you define the CreateTodoDto class with the `title`, `description`, and `deadline` fields. The `@IsNotEmpty` decorator is used to validate that the `title` field is not empty, and the `@IsString` decorator is used to validate that the `description` field is a string. The `@IsDateString` decorator is used to validate that the `deadline` field is a valid date string. The `@IsNullable` decorator is used to allow the `description` and `deadline` fields to be nullable. 
+In the code above, you define the CreateTodoDto class with the `title`, `description`, and `deadline` fields. The `@IsNotEmpty` decorator is used to validate that the `title` field is not empty, and the `@IsString` decorator is used to validate that the `description` field is a string. The `@IsDateString` decorator is used to validate that the `deadline` field is a valid date string. The `@IsNullable` decorator is used to allow the `description` and `deadline` fields to be nullable.
 
 To view all possible decorators using class-validator, see [docs](https://github.com/typestack/class-validator)
 
@@ -701,11 +701,11 @@ export class TodoController {
 
 ```
 
-In the code above, you define the TodoController class with the `createTodo` and `getTodo` methods to handle the create and get operations for the todo items. 
+In the code above, you define the TodoController class with the `createTodo` and `getTodo` methods to handle the create and get operations for the todo items.
 
-The `@Post` and `@Get` decorators are used to define the API endpoints for the create and get operations, and the `@ApiResponse` decorator is used to define the response schema for the API endpoints. 
+The `@Post` and `@Get` decorators are used to define the API endpoints for the create and get operations, and the `@ApiResponse` decorator is used to define the response schema for the API endpoints.
 
-The `@Body` and `@Param` decorators are used to extract the request body and URL parameters from the incoming requests. 
+The `@Body` and `@Param` decorators are used to extract the request body and URL parameters from the incoming requests.
 
 The `ParseUUIDPipe` is used to validate and parse the UUID parameter from the URL, more info about pipes can be found [here](https://docs.nestjs.com/pipes).
 
@@ -763,7 +763,7 @@ Repositories are used to interact with the database for the application. In this
 
 ### Repository Definition
 
-The TodoRepository is a class that defines the methods to interact with the database for the todo items. 
+The TodoRepository is a class that defines the methods to interact with the database for the todo items.
 
 First we will create a new file called `todo.repository.ts` in the `src/modules/todo/repositories` folder and define the TodoRepository class with the specified methods.
 
