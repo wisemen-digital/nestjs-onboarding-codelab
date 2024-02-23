@@ -36,4 +36,8 @@ pnpm serve
 7. Profit 😎
 
 
-## Got 
+## Got any questions or suggestions?
+
+Don't hesitate to contact your buddy or other members of our tech stack. 
+We're always happy to help and open to improve our onboarding experience 💪.
+Wisemen to the moon 🚀

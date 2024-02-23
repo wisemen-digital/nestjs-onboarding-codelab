@@ -6,26 +6,35 @@ categories:
 environments:
 status: Draft
 
-# Wisemen Onboarding Backend
+# Wisemen Circle Node.js Onboarding 
 
-## What you'll learn: overview
-
-#### First of all, welcome to **Wisemen!** We are happy to have you here and we hope you will have a great time working with us.
-
+## Welcome to Circle Node.js at **Wisemen!**
 
   <img width="200" src="img/projectSetup/Wisemen_Logo_Acid.png">
 
-Welcome to the backend onboarding! In this onboarding you will learn how development happens at Wisemen.
-You will learn how to work with NodeJs, TablePlus, Figma, Github and Jira.
+### Welcome to the Node.js onboarding 👋!  
+Strap in and get ready to learn how we build killer apps at wisemen 🔥.
 
-This onboarding is designed to be completed in roughly 3-4 days.
-This does not mean you have to complete it in 3-4 days. People with more experience will be able to complete it faster than people with less experience.
 
-You will be working on a small to-do app.
-This app will be used to learn the same way we, as backend developers work at Wisemen. You will be working with the exact tools and workflow we use in our projects.
+#### You will learn how to work with
+ - [Typescript](https://www.typescriptlang.org/docs/handbook/intro.html): Because a world without types is no world to live in
+ - [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs): The cornerstone of our backend applications
+ - [NestJS](https://docs.nestjs.com/): A backend framework on top of Node.js with a lot of cats? 🐈‍⬛
+ - [TablePlus](https://docs.tableplus.com/): The database management tool with the best mascot 🐘 (we like elephant themed software)
+ - [Figma](https://www.figma.com/): The tools our designers use at Wisemen use to take our breath away 🎨
+ - [Github](https://github.com/): Where we store our precious code 🤩
+ - [Jira](https://appwise.atlassian.net/jira/your-work): Did you get any tickets yet? 🤨
 
-We also expect you to make pull request of your work so your buddy can review your code and keep track of your progress.
-The way we do this will be explained in this onboarding.
+
+#### This onboarding is designed to be completed in roughly 3 to 4 days
+This does not mean you have to complete it in 3-4 days.  
+People with more experience will be able to complete it faster than people with less experience.  
+Go at your own pace and be sure to ask for help when needed from your buddy or a member of our circle 🤝.
+
+#### You will be working on a small to-do app 📋
+This app wil teach you our core conventions and ways of working in Node.js backends.  
+We expect you to make **pull request** of your work so your buddy can review your code and keep track of your progress 🫣.  
+Don't know how to make pull requests yet? No worries more wil be explained on the next page.
 
 Good luck!!!
 
