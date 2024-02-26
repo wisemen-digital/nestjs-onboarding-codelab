@@ -1,40 +1,43 @@
-# Onboarding Codelab starterkit
+# Onboarding Codelab Node.js
 
-Howdy! Glad to see you here partner :)
-
-## What is this?
-
-This is a template for creating Google Codelabs. It's a product created by Google for creating interactive tutorials for developers.
-
-## How does it work?
-
-It works using markdown files. When following a specific standard, Claat (Code labs as a thing) is a
-tool that converts markdown files into a web page. It's a tool created by Google.
-
-You can install the claat tool locally using Go. But then you have to install Go and set up your environment. It's a bit of a hassle. That's why I included the claat tool in this repository.
+Howdy! Glad to see you here partner 🤠
+Welcome the ranch
 
 ## How do I get started?
 
 1. Clone this repository
-2. Install Node if you don't have it already
-3. Run `pnpm install` to install the dependencies
-4. Run `pnpm serve` to start the local server
-5. Open `http://127.0.0.1:8080` in your browser to see the rendered codelab
-6. Profit
+```shell
+git clone https://github.com/wisemen-digital/onboarding-codelab-backend.git
+```
 
-## How do I edit the codelab?
+2. Open the cloned repo
 
-1. Run `pnpm serve` to start the local server
-2. Edit the `index.md` file
-3. Refresh your browser after making changes
+```shell
+cd onboarding-codelab-backend
+```
 
-## How do I publish the codelab?
+3. Verfiy your installation of node and install Node if you don't have it already
+```shell
+node -v 
+brew install node
+```
 
-You can use any hosting platform. I recommend netlify.com. It's free and easy to use.
+4. Install the npm dependencies
+```shell
+pnpm install
+```
 
-## Example project (Frontend)
+5. Start the local server to start the codelab
+```shell
+pnpm serve
+```
 
-If you want to see an example project, you can check out the frontend onboarding project.
+6. Open the [codelab](http://127.0.0.1:8080) in your browser to get started
+7. Profit 😎
 
-[Github](https://github.com/appwise-labs/onboarding-frontend)
-[Live demo](https://wisemen-onboarding-frontend.netlify.app/#0)
+
+## Got any questions or suggestions?
+
+Don't hesitate to contact your buddy or other members of our tech stack. 
+We're always happy to help and open to improve our onboarding experience 💪.
+Wisemen to the moon 🚀

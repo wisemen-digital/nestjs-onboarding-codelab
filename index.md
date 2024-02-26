@@ -6,49 +6,106 @@ categories:
 environments:
 status: Draft
 
-# Wisemen Onboarding Backend
+# Wisemen Circle Node.js Onboarding 
 
-## What you'll learn: overview
-
-#### First of all, welcome to **Wisemen!** We are happy to have you here and we hope you will have a great time working with us.
-
+## Welcome to Circle Node.js at **Wisemen!**
 
   <img width="200" src="img/projectSetup/Wisemen_Logo_Acid.png">
 
-Welcome to the backend onboarding! In this onboarding you will learn how development happens at Wisemen.
-You will learn how to work with NodeJs, TablePlus, Figma, Github and Jira.
+### Welcome to the Node.js onboarding 👋!  
+Strap in and get ready to learn how we build killer apps at wisemen 🔥.
 
-This onboarding is designed to be completed in roughly 3-4 days.
-This does not mean you have to complete it in 3-4 days. People with more experience will be able to complete it faster than people with less experience.
 
-You will be working on a small to-do app.
-This app will be used to learn the same way we, as backend developers work at Wisemen. You will be working with the exact tools and workflow we use in our projects.
+#### You will learn how to work with
+ - [Typescript](https://www.typescriptlang.org/docs/handbook/intro.html): Because a world without types is no world to live in
+ - [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs): The cornerstone of our backend applications
+ - [NestJS](https://docs.nestjs.com/): A backend framework on top of Node.js with a lot of cats? 🐈‍⬛
+ - [TablePlus](https://docs.tableplus.com/): The database management tool with the best mascot 🐘 (we like elephant themed software)
+ - [Figma](https://www.figma.com/): The tool designers at Wisemen use to take our breath away 🎨
+ - [Github](https://github.com/): Where we store our precious code 🤩
+ - [Jira](https://appwise.atlassian.net/jira/your-work): Did you get any tickets yet? 🤨
 
-We also expect you to make pull request of your work so your buddy can review your code and keep track of your progress.
-The way we do this will be explained in this onboarding.
+
+#### This onboarding is designed to be completed in roughly 3 to 4 days
+This does not mean you have to complete it in 3-4 days.  
+People with more experience will be able to complete it faster than people with less experience.  
+Go at your own pace and be sure to ask for help when needed from your buddy or a member of our circle 🤝.
+
+#### You will be working on a small to-do app 📋
+This app wil teach you our core conventions and ways of working in Node.js backends.  
+We expect you to make **pull request** of your work so your buddy can review your code and keep track of your progress 🫣.  
+Don't know how to make pull requests yet? No worries more wil be explained on the next page.
 
 Good luck!!!
 
 
-## What you need: Prerequisites
+## What you'll need ️🛠️: iTerm2
 
-### Development Environment
+### Node.js
 
-A well-configured development environment is crucial for efficient and productive backend development. We use the following tools and services for version control, code editing, and enhancing our coding experience.
+Being a part of our Node.js circle requires you to have ... well, Node.js 😅.
+But to get Node.js we'll start by setting up your terminal and installing Homebrew 🍺, a popular package manager for MacOS.
 
-#### Setup
+### Installing iTerm2
 
-Our backend stack is built using Node.js and TypeScript using the NestJs framework, which provide a powerful and flexible foundation for server-side development. In this section, we'll explain how to set up Node.js using Homebrew, a popular package manager for macOS.
+The unleash your full hacker-man potential 😎 we'll install [iTerm2](https://iterm2.com/) to replace the default MacOS terminal.
 
-#### Setting up Homebrew
+1. **Install iTerm2**:  
+  Download the latest version of iTerm2 from [https://iterm2.com](https://iterm2.com).
 
-1. **Install Homebrew** (if not already installed): Open Terminal and run the following command:
+
+2. **Install Oh My Zsh**:  
+  [Oh My Zsh](https://ohmyz.sh/) brings a lot of new goodies and allows for better completion on commands through plugins.  
+  Open Term2 and run the following command:
+    ```bash
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    ```
+    This command will download and install Oh My Zsh and set Zsh as your default shell.
+
+
+3. **Install the recommend fonts**:
+
+    Download each file. Double-click on each file followed by clicking on "Install". This will make `MesloLGS NF` font available to all applications on your system.
+   - [MesloLGS NF Regular.ttf](
+     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
+   - [MesloLGS NF Bold.ttf](
+     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
+   - [MesloLGS NF Italic.ttf](
+     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
+   - [MesloLGS NF Bold Italic.ttf](
+     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
+
+   
+
+4. **Install Powerlevel10k**:  
+    Run the following command:  
+    ```bash
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    ```
+
+    Add or change the line `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`  
+    Restart Zsh with `exec zsh`.
+
+
+5. **Configure Powerlevel10k**:  
+   Run the following command:
+    ```bash
+    p10k configure
+    ```
+    This command will start the configuration wizard. Follow the instructions to customize your prompt.
+
+_To complete your hacker man arc try out some definitely useful tools like lolcat and cowsay.
+Be sure to share any other essential tools for iTerm overlords you know of 👑_
+
+## What you'll need ️🛠️: Homebrew 🍺
+### Installing Homebrew 🍺
+
+1. **Install Homebrew** (if not already installed)   
+   Open a terminal and run the following command:
 
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
-
-   This command will download and install Homebrew on your system.
 
 2. **Update Homebrew**: Before installing any packages, it's a good idea to update Homebrew to the latest version. Run the following command to do so:
 
@@ -56,72 +113,31 @@ Our backend stack is built using Node.js and TypeScript using the NestJs framewo
    brew update
    ```
 
-#### Installing iTerm2 & Oh My Zsh & Powerlevel10k
+_Did you know that our circle lead also home brews his own beers?_ 😋🍺
 
-1. **Install iTerm2**: Download the latest version of iTerm2 from [https://iterm2.com](https://iterm2.com).
+## What you'll need ️🛠️: Node.js 
+### Installing Node.js
 
-2. **Installing Oh My Zsh**: Open Iterm2 and run the following command:
-
-    ```bash
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    ```
-
-  This command will download and install Oh My Zsh and set Zsh as your default shell.
-
-3. **Install the recommend fonts**:
-
-   - [MesloLGS NF Regular.ttf](
-       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
-   - [MesloLGS NF Bold.ttf](
-       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
-   - [MesloLGS NF Italic.ttf](
-       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
-   - [MesloLGS NF Bold Italic.ttf](
-       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
-
-    Download each file and double-click on each file and click "Install". This will make `MesloLGS NF` font available to all applications on your system.
-
-4. **Install Powerlevel10k**: Run the following command:
-
-    ```bash
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-    ```
-
-  Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
-
-  Restart Zsh with `exec zsh`.
-
-5. **Configure Powerlevel10k**: Run the following command:
-
-    ```bash
-    p10k configure
-    ```
-
-  This command will start the configuration wizard. Follow the instructions to customize your prompt.
-
-
-#### Installing Node.js with Homebrew
-
-To install Node.js using Homebrew, follow these steps:
-
-1. **Install Node.js**: Now that Homebrew is installed and updated, you can install Node.js by running the following command:
+1. **Install Node.js**:  
+   Now that Homebrew is installed and updated, you can install Node.js by running the following command:
 
    ```bash
    brew install node
    ```
 
-   This command will install the latest stable version of Node.js on your system.
-
-2. **Verify Node.js installation**: To verify that Node.js is installed correctly, run the following commands to check the version numbers for Node.js and npm (the Node.js package manager):
-
+   This command will install the latest stable version of Node.js on your system.  
+  Verify your installation with:
+  
    ```bash
    node --version
    npm --version
    ```
 
-   If both commands return version numbers, Node.js and npm are installed correctly.
+   If both commands return version numbers, Node.js and npm are installed successfully.
 
-3. **Install pnpm**: We use pnpm as our package manager. To install pnpm, run the following command:
+
+2. **Install pnpm**:  
+    We use [pnpm](https://pnpm.io/) as our package manager for Node.js. To install pnpm, run the following command:
 
    ```bash
    npm install -g pnpm
@@ -129,53 +145,71 @@ To install Node.js using Homebrew, follow these steps:
 
    This command will install the latest version of pnpm and make it available system-wide.
 
-4. **Install TypeScript**: We use TypeScript as our programming language. To install TypeScript, run the following command:
+
+3. **Install TypeScript**:   
+   We use [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html) as our programming language. To install TypeScript, run the following command:
 
    ```bash
    npm install -g typescript
-   ```
+   ```  
+    This command will install the latest version of TypeScript and make it available system-wide.  
+    Verify your typescript installation with:
+    
+     ```bash
+     tsc --version
+     ```
+    
+    If the command returns a version number, TypeScript is installed correctly.
 
-   This command will install the latest version of TypeScript and make it available system-wide.
+## What you'll need ️🛠️: VCS
+### Version Control
 
-5. **Verify TypeScript installation**: To verify that TypeScript is installed correctly, run the following command to check the TypeScript version:
+#### Git 
+Our preferred version control system at Wisemen.  
+It should come preinstalled on your mac. You can verify your installation with:
+```bash
+git -v
+```
 
-   ```bash
-   tsc --version
-   ```
+#### Github
 
-   If the command returns a version number, TypeScript is installed correctly.
+We use Github (and previously [Bitbucket](https://bitbucket.org/appwise/workspace/overview)) as our repository hosting service.  
+Your future projects will be hosted on Github. So be sure to link your Wisemen work email to your personal github account our make a new work account before continuing.  
+If you have not received an invite for the Wisemen github organisation be sure to ask your budy about it.
 
-#### Version Control
+[Wisemen Github](https://github.com/wisemen-digital)
 
-- **Git**: Our preferred version control system for tracking code changes and collaborating with the team.
-- [**Github**](https://github.com/wisemen-digital): We use Github (and previously [Bitbucket](https://bitbucket.org/appwise/workspace/overview)) as our Git repository hosting service for managing our codebase and collaborating on projects.
+Here is great article to get you started with github:
+[Github Git tutorial](https://docs.github.com/en/get-started/quickstart/hello-world)   🤓  
+It also teaches you how to create **pull requests**, so keep this tab open for when you make your first pull request 🤞. 
 
+_I can't see the main for the branches anymore_ 😵‍💫
 
-### IDE
+## What you'll need ️🛠️: IDE
 
-There are 2 different IDE's used in this company. You can use either **Visual Studio Code** or **WebStorm**.
+There are 2 different IDEs in use at Wisemen. You can use either **Visual Studio Code** or **WebStorm**.
 
 #### Visual Studio Code
-Visual Studio Code is a source-code editor developed by Microsoft for Windows, Linux and macOS.
+Visual Studio Code is an editor developed by Microsoft for Windows, Linux and macOS.
 It includes support for debugging, syntax highlighting, intelligent code completion, snippets, and code refactoring.
 
-Visual Studio Code is a free IDE. You can download it from the website.
-
-[Download vscode](https://code.visualstudio.com/download)
-
-Choose the IDE you want to work with and download it.
+Visual Studio Code is a free IDE. You can download it from the [website](https://code.visualstudio.com/download).
 
 #### WebStorm
-WebStorm is a JavaScript IDE with complete set of tools for client-side and server-side development and testing.
+WebStorm is a JavaScript and Typescript IDE with a complete set of tools for client-side and server-side development and testing.
 It provides code completion, on-the-fly error detection, powerful navigation and refactoring for JavaScript, TypeScript, CSS, HTML and more.
 
 Webstorm is a paid IDE. You can get a license from Wisemen. Ask your buddy!
 
 [Download WebStorm](https://www.jetbrains.com/webstorm/download)
 
-### Figma
-Our designers work with **Figma**.
-Figma is a vector graphics editor and prototyping tool which is browser-based or can be installed on macOS or Windows.
+_Opinions differ on which IDE is best. In truth both IDEs are fine, choose the one which supports your way of working the best_ 🙌
+
+
+## What you'll need ️🛠️: Figma
+
+Our talented designers work with **Figma** 👩‍🎨🧑‍🎨.  
+Figma is a browser-based vector graphics editor and prototyping tool.
 We recommend you to install the desktop app.
 
 [Download Figma](https://www.figma.com/downloads/)
@@ -186,21 +220,14 @@ You can view all of our designs here:
 [Wisemen Figma](https://www.figma.com/files/team/1070403287155222588/Wisemen?fuid=1070747045190465434)
 
 To access the designs you need, you need to log in with your Wisemen account.
-the designs you need for this onboarding are: [Todo-app designs](https://www.figma.com/file/hebgv4Qx8VanMAQkO1NFpa/Onboarding-to-do?node-id=407-4095&t=2qdyy89lKwN7dFw3-0)
+The designs you need for this onboarding are: [Todo-app designs](https://www.figma.com/file/hebgv4Qx8VanMAQkO1NFpa/Onboarding-to-do?node-id=407-4095&t=2qdyy89lKwN7dFw3-0)
 
-### Github
-Github is a web-based version control repository hosting service, for source code and development projects that use the Git revision control system.
+We commonly leave notes on designs as feedback to our designers, but be sure to have a talk face to face as well 😄 or else...
 
-All your future projects will be hosted on Github.
+  <img width="200" src="img/afbeelding-voor-noodgevallen.png">
 
-[Wisemen Github](https://github.com/wisemen-digital)
+_Figma balls_ 🍒
 
-If you are not yet familiar with Github and/or Git, Here is great article to get you started:
-[Github Git tutorial](https://docs.github.com/en/get-started/quickstart/hello-world)
-
-#### Pull Requests
-We also expect you to make pull request of your work so your buddy can review your code and keep track of your progress.
-In the article above you can find a section about pull requests to get you started!
 
 <!-- ### Jira access
 
@@ -214,71 +241,116 @@ The Jira contains all the requirements for creating the to-do app.
 
 *ToDo: Add link to Jira* -->
 
-## What you'll do
+## What you'll do 📋
 
+### Project requirements
 
-### Project explanation
-
-You will be creating the backend for a simple to-do app. In the app it's possible to create, edit, delete, check and uncheck to-do's.
+You will be creating the backend for a simple to-do app.  
+The app should allow the user to create, edit, delete, check and uncheck to-do's.
 
 ### Designs
 
 [Todo-app designs](https://www.figma.com/file/hebgv4Qx8VanMAQkO1NFpa/Onboarding-to-do?node-id=407-4095&t=2qdyy89lKwN7dFw3-0)
 
+
+ <img width="400" src="img/todo-app.png">
+
+
+_If there's one thing the world needs, it's more todo apps!_ 👍
+
+
 ## Project setup
 
 ### 1. Clone the Wisemen NestJS Template from Github
 
-You can kickstart your new project without starting from square one by utilizing the [Wisemen NestJS Template repository](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project.
+You can kickstart your new project without starting from square one by using the [Wisemen NestJS Template Project](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project.
 
 ### 2. Package.json
 
-> The package.json file is used to give information to pnpm that allows it to identify the project as well as handle the
-> project's dependencies. pnpm can install the packages you specify in your package.json file.
-> The main use of the package.json file is to list the packages that your project depends on and to ensure that your
-> colleagues get the same packages when they do `pnpm install`.
+The package.json file is used manage the project's dependencies and predefined run commands.
+
+```json
+{
+  "name": "nestjs-example",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "node dist/src/main.js",
+    ...
+  },
+  "dependencies": {
+    "@appwise/express-dto-router": "^1.1.5",
+    "@appwise/oauth2-server": "^0.0.10",
+    "@appwise/transformer": "^0.0.2",
+    "@nestjs/common": "^10.2.4",
+    ...
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.1.17",
+    "@nestjs/schematics": "^10.0.2",
+    "@nestjs/testing": "^10.2.4",
+    "@sentry/types": "^7.37.1",
+    ...
+  }
+}
+
+```
 
 #### 2.1 Scripts
 
-> The scripts property is used to specify a list of scripts that can be run using `pnpm <script-name>`.
-> It's written as a JSON object where each key is the name of a script and the value is the command to run for.
-> Most common scripts are `start` and `build`.
+The scripts property is used to specify a list of scripts that can be run using `pnpm script-name`.
+It's written as a JSON object where each key is the name of a script and the value is the command to execute.
+Most common scripts are `start` and `build`.
 
-#### 2.2 Dependencies vs Dev Dependencies
+#### 2.2 Dependencies
 
-> Dev dependencies are dependencies that are only used during development and are not required for production.
-> Dependencies are required for production.
+Install the dependencies specified in package.json file by running:
+```bash
+pnpm install
+```
+
+**Dev dependencies** are dependencies that are only used during development and are not required for production.  
+**Dependencies** are required for production.
+
 
 ### 3. Environment variables
 
-Create the .env file and setup the following 5 variables:
-- PostgreSQL link (example)<br />
-   `TYPEORM_URI = postgresql://postgres:password@127.0.0.1:5432/todo`
-- Refresh token lifetime (5 minute example)<br />
-   `REFRESH_TOKEN_LIFETIME = 300`
-- To generate the crypto keys, following commands are required (best to execute this in CLI at project folder)<br />
+#### Generating RSA keys
 
-   'Note: during private generation a passphrase is required, this is RSA_PASSPHRASE'
+To generate the RSA keys execute the following in at your project folder:
+
    ```bash
    openssl genrsa -des3 -out private.pem 2048
    openssl rsa -in private.pem -outform PEM -pubout -out public.pem
    cat private.pem | base64 '<-- Your RSA_PRIVATE'
    cat public.pem | base64 '<-- Your RSA_PUBLIC'
    ```
-   RSA private key<br />
-   `RSA_PRIVATE = "your private key"`<br />
+_Note: during private generation a passphrase is required, this is RSA_PASSPHRASE_
 
-   RSA public key<br />
-   `RSA_PUBLIC = "your public key"`<br />
 
-   RSA passphrase<br />
-   `RSA_PASSPHRASE = "your password"`<br />
+
+Create an .env file and add the following:
+
+```dotenv
+TYPEORM_URI = postgresql://postgres:password@127.0.0.1:5432/todo # PSQL link
+REFRESH_TOKEN_LIFETIME = 300 # 5 minutes
+RSA_PRIVATE = "your private key"
+RSA_PUBLIC = "your public key"
+RSA_PASSPHRASE = "your password
+```
 
 ### 4. PostGis Database Setup
 
 #### Requirements
 1. Docker Desktop
-2. TablePlus
+2. Install TablePlus through Setapp
 
 #### Docker setup
 
