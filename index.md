@@ -261,9 +261,10 @@ _If there's one thing the world needs, it's more todo apps!_ 👍
 
 ## Project setup
 
-### 1. Clone the Wisemen NestJS Template from Github
+### 1. Fork the Wisemen NestJS Template from Github
 
-You can kickstart your new project without starting from square one by using the [Wisemen NestJS Template Project](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project.
+You can kickstart your new project without starting from square one by using the [Wisemen NestJS Template Project](https://github.com/wisemen-digital/nestjs-template). This repository already includes authentication and a user entity, providing a solid foundation for your project. If at any point you are stuck, take a peek into the auth of user module, you might find great examples there!
+Fork this project into your own repository on Github.
 
 ### 2. Package.json
 
@@ -568,7 +569,7 @@ First import your entity in the `models.ts` file in the `src/config/sql/models` 
 Next, run the following command in your terminal:
 
 ```bash
-pnpm typeorm migration:create src/config/sql/migrations/CreateTodoEntity
+pnpm typeorm migration:generate src/config/sql/migrations/CreateTodoEntity
 ```
 
 This command creates a new migration file with the name `CreateTodoEntity.ts`. Add the generated migration class to the `mainMigrations` in the `index.ts` file.
@@ -597,7 +598,7 @@ export class CreateTodoDto {
 
   @IsDateString({ strict: true })
   @IsNullable()
-  deadline: string | null
+  deadline: Date | null
 }
 ```
 
@@ -619,7 +620,7 @@ First we will create a transformer and transformer type for the todo item. Creat
 // src/modules/todo/transformers/todo.transformer.ts
 
 import { Todo } from '../entities/todo.entity'
-import { Transformer } from '@appwise/express-dto-router'
+import { Transformer } from '@appwise/transformer'
 
 export class TodoTransformerType {
    uuid: string
@@ -739,7 +740,7 @@ First we will create a new file called `todo.controller.ts` in the `src/modules/
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateTodoDto } from '../dtos/create-todo.dto.js'
-import { TodoTransformerType } from '../transformers/user.transformer.js'
+import { TodoTransformerType } from '../transformers/todo.transformer.js'
 
 @ApiTags('Todo')
 @Controller('todos')
@@ -754,7 +755,7 @@ export class TodoController {
   async createTodo (
     @Body() createTodoDto: CreateTodoDto,
   ): Promise<void> {
-      // ... create todo
+    throw new KnownError('Missing implementation')
   }
 
   @Get(':todo')
@@ -766,7 +767,7 @@ export class TodoController {
   async getTodo (
     @Param('todo', ParseUUIDPipe) todoUuid: string
   ): Promise<void> {
-      // ... get todo
+    throw new KnownError('Missing implementation')
   }
 
 }
@@ -784,6 +785,16 @@ The `ParseUUIDPipe` is used to validate and parse the UUID parameter from the UR
 For now we use `Promise&lt;void&gt;` as return type, but we will change this later to the correct return type once we have the service and repository setup.
 
 Also see the [NestJs documentation](https://docs.nestjs.com/controllers) for more information about controllers.
+
+### Authentication
+
+We should prevent unauthenticated users from accessing certain endpoints of our API. In our project template, we already built the logic that will help us protect our endpoints. Have a look into `app.module.ts`, you'll see that we defined some global guards that will protect all endpoints in our application.
+
+Furthermore, have a look into the auth and user module, where all the authentication and user management logic is built.
+
+Also see the [NestJs documentation](https://docs.nestjs.com/security/authentication) for more information about security and authentication.
+
+### Your turn!
 
 Now create the other methods for the controller!
 
@@ -868,7 +879,8 @@ First we will create a new file called `todo.e2e.test.ts` in the `src/modules/to
 
 ```typescript
 // src/modules/todo/tests/todo.e2e.test.ts
-import { after, before, describe } from 'node:test'
+import { expect } from 'expect'
+import { before, describe, it, after } from 'node:test'
 import { ValidationPipe, type INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
@@ -992,6 +1004,7 @@ First we will create a new file called `todo.seeder.ts` in the `src/modules/todo
 // src/modules/todo/tests/todo.seeder.ts
 
 import { Injectable } from '@nestjs/common'
+import { type CreateTodoDto } from '../dtos/create-todo.dto.js'
 
 @Injectable()
 export class TodoSeeder {
@@ -1028,6 +1041,10 @@ export class TodoSeederModule {}
 
 In the code above, you define the TodoSeederModule class with the `providers` and `exports` properties to define the TodoSeeder as a provider and export it to make it available to the application for the tests. Now you need to import the TodoSeederModule into the test module (`src/modules/todo/tests/todo.e2e.test.ts`) to make it available to the application for the tests.
 
+### Running tests
+
+Have a look into the `.env.test` file, this environment file is used when running the tests. Make sure you postgis docker container is running and matches your environment settings.
+
 Now run the tests with `pnpm test`, normally you will see the tests fail because we haven't implemented the methods yet. Now you can start implementing the methods and see the tests pass!
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
@@ -1061,7 +1078,7 @@ export class TodoService {
   }
 
   async getTodo (todoUuid: string): Promise<Todo> {
-    return this.todoRepository.findOneOrFail(todoUuid)
+    return await this.todoRepository.findOneOrFail({ where: { uuid: todoUuid } })
   }
 
   // ... other methods
