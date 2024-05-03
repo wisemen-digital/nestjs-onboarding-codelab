@@ -586,7 +586,7 @@ First we will create a DTO for creating a todo item. Create a new file called `c
 // src/modules/todo/dtos/create-todo.dto.ts
 
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator'
-import { IsNullable } from '../../../util/validators/is-nullable.validator'
+import { IsNullable } from '../../../util/validators/is-nullable.validator.js'
 
 export class CreateTodoDto {
   @IsNotEmpty()
@@ -628,7 +628,7 @@ export class TodoTransformerType {
    updatedAt: Date
    title: string
    description: string | null
-   deadline: Date | null
+   deadline: string | null
    completed: boolean
 }
 
@@ -741,6 +741,8 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/commo
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateTodoDto } from '../dtos/create-todo.dto.js'
 import { TodoTransformerType } from '../transformers/todo.transformer.js'
+import { UserTransformerType } from '../../users/transformers/user.transformer.js'
+import { KnownError } from '../../../utils/Exceptions/errors.js'
 
 @ApiTags('Todo')
 @Controller('todos')
@@ -755,7 +757,7 @@ export class TodoController {
   async createTodo (
     @Body() createTodoDto: CreateTodoDto,
   ): Promise<void> {
-    throw new KnownError('Missing implementation')
+    throw new KnownError('not_found')
   }
 
   @Get(':todo')
@@ -767,7 +769,7 @@ export class TodoController {
   async getTodo (
     @Param('todo', ParseUUIDPipe) todoUuid: string
   ): Promise<void> {
-    throw new KnownError('Missing implementation')
+    throw new KnownError('not_found')
   }
 
 }
@@ -820,8 +822,8 @@ First we will create a new file called `todo.module.ts` in the `src/modules/todo
 
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Todo } from './entities/todo.entity'
-import { TodoController } from './controllers/todo.controller'
+import { Todo } from './entities/todo.entity.js'
+import { TodoController } from './controllers/todo.controller.js'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Todo])],
@@ -886,9 +888,9 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { HttpAdapterHost } from '@nestjs/core'
 import { HttpExceptionFilter } from '../../../utils/Exceptions/http-exception.filter.js'
-import { AppModule } from '../../../app.module'
+import { AppModule } from '../../../app.module.js'
 import { UserSeeder } from '../../user/tests/user.seeder.js'
-import { UserSeederModule } from '../../user/tests/user.seeder.module.js'
+import { UserSeederModule } from '../../user/tests/user-seeder.module.js'
 
 
 describe('Todo tests', async () => {
@@ -975,7 +977,7 @@ describe('Create todo', () => {
       expect(response.status).toBe(400)
     })
 
-    it('should return 200', async () => {
+    it('should return 201', async () => {
       const dto = todoSeeder.generateCreateTodoDto()
 
       const { token } = await userSeeder.setupUser()
@@ -985,7 +987,7 @@ describe('Create todo', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(dto)
 
-      expect(response.status).toBe(200)
+      expect(response.status).toBe(201)
     })
   })
 
@@ -1008,12 +1010,21 @@ import { type CreateTodoDto } from '../dtos/create-todo.dto.js'
 
 @Injectable()
 export class TodoSeeder {
-  generateCreateTodoDto (): CreateTodoDto {
+    constructor(
+    private readonly todoRepository: TodoRepository
+  ) {}
+  
+  generateCreateTodoDto (userUuid: string): CreateTodoDto {
     return {
+      userUuid,
       title: 'Test todo',
       description: 'Test description',
       deadline: new Date().toISOString()
     }
+  }
+
+  async createOneTodo (userUuid: string): Promise<Todo> {
+    return await this.todoRepository.save(this.generateCreateTodoDto(userUuid))
   }
 
    // ... other methods
@@ -1027,7 +1038,7 @@ In the code above, you define the TodoSeeder class with the `generateCreateTodoD
 Now you need to create a test module to provide the TodoSeeder to the application for the tests. First we will create a new file called `todo.seeder.module.ts` in the `src/modules/todo/tests` folder and define the TodoSeederModule class with the specified components.
 
 ```typescript
-// src/modules/todo/tests/todo.seeder.module.ts
+// src/modules/todo/tests/todo-seeder.module.ts
 
 import { Module } from '@nestjs/common'
 import { TodoSeeder } from './todo.seeder.js'
