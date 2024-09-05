@@ -29,7 +29,7 @@ pnpm install
 
 5. Start the local server to start the codelab
 ```shell
-pnpm serve
+pnpm docs:serve
 ```
 
 6. Open the [codelab](http://127.0.0.1:8080) in your browser to get started

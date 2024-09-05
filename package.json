@@ -1,11 +1,13 @@
 {
+  "packageManager": "pnpm@9.9.0",
   "name": "codelab-bootstrap",
   "version": "1.0.0",
   "description": "use nodemon to watch changes on md file, rebuild codelab on saves",
   "main": "index.js",
   "scripts": {
-    "build": "./claat-linux export -o dist index.md",
-    "serve": "nodemon --watch index.md --exec './claat export index.md && http-server index'"
+    "install-claat": "test -f claat || curl -Lo claat \"https://github.com/googlecodelabs/tools/releases/latest/download/claat-$(uname -s)-amd64\" && chmod +x claat",
+    "docs:build": "pnpm install-claat && ./claat export -o dist index.md",
+    "docs:serve": "pnpm install-claat && nodemon --watch index.md --exec './claat export -o dist index.md && http-server dist/index'"
   },
   "repository": {
     "type": "git",
