@@ -749,7 +749,7 @@ After defining the CreateTodoModule, you need to created a `todo.module.ts` file
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## Use Case: Create Todo (4/5)
+## USE CASE: Create Todo (4/5)
 ### Testing
 
 At Wisemen we work with [test driven development](https://martinfowler.com/bliki/TestDrivenDevelopment.html). This means that we write tests before we write the actual code. This way we can make sure that the code we write is working as expected.
@@ -909,7 +909,7 @@ Now run the tests with `pnpm test`, normally you will see the tests fail because
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## Use Case: Create Todo (5/5)
+## USE CASE: Create Todo (5/5)
 ### Use Case
 
 Use case are used to handle the business logic for the application. In this example we will create a use case for the creation of a todo item. The use case will use the TodoRepository to interact with the database for the todo items.
