@@ -23,7 +23,7 @@ Strap in and get ready to learn how we build killer apps at wisemen 🔥.
  - [TablePlus](https://docs.tableplus.com/): The database management tool with the best mascot 🐘 (we like elephant themed software)
  - [Figma](https://www.figma.com/): The tool designers at Wisemen use to take our breath away 🎨
  - [Github](https://github.com/): Where we store our precious code 🤩
- - [Jira](https://appwise.atlassian.net/jira/your-work): Did you get any tickets yet? 🤨
+ - [Linear](https://linear.app/wisemen): Did you get any tickets yet? 🤨
 
 
 #### This onboarding is designed to be completed in roughly 3 to 4 days
@@ -170,6 +170,8 @@ It should come preinstalled on your mac. You can verify your installation with:
 ```bash
 git -v
 ```
+If you are not familiar with git, you can learn it here in an interactive way:
+[Learn Git](https://learngitbranching.js.org/)
 
 #### Github
 
@@ -355,9 +357,7 @@ RSA_PASSPHRASE = "your password
 
 #### Docker setup
 
-Download and install the requirements above. Once these are installed we can pull the `postgis/postgis` image from the docker website. Open a command tool and execute `docker pull postgis/postgis`. This will download the image which we will use later.
-
-Open the Docker Desktop application and confirm the image has been installed. After the image is installed, we can create a docker container using following command: `docker run --name [NAME] -e POSTGRES_PASSWORD=[PASSWORD] -p 5432:5432 -d postgis/postgis`. Confirm that in the Containers / Apps the postgis/postgis container with the name `[NAME]` is running. We can now setup different databases using following command which will open the psql CLI: `docker exec -ti [NAME] psql -U postgres`. After we are in the CLI, we can configure the databases: `CREATE DATABASE [database_name];` (notice the ; at the end) To check if the database has been created, execute the `\l` command in the CLI, this will list all the databases available. To exit the CLI, type `quit`.
+Download and install the requirements above. Once these are installed we can execute the following command in the terminal: `docker compose up`. This will pull all the necessary images and start the database.
 
 #### Connecting with TablePlus
 (TablePlus can be downloaded though SetApp)
@@ -367,8 +367,8 @@ Name: `any` <br />
 Host/Socket : `localhost` <br />
 Port: `5432` <br />
 User: `postgres` <br />
-Password: `[PASSWORD]` <br />
-Database: `[database_name]`<br />
+Password: `password` <br />
+Database: `test_db`<br />
 
 ### 5. First Start 🚀
 
@@ -386,25 +386,32 @@ if (errors.length() === 0) {
 
 ### Folder structure
 
-For this project we will be using a ‘split-by-feature' folder structure.
+For this project we will be using a ‘vertical slices' folder structure.
 
 ```
 - src
-   - modules
-      - ...
-      - users
-         - controllers
-            - user.controller.ts
-         - dtos
-            - create-user.dto.ts
-            - update-user.dto.ts
-         - entities
-         - guards
-         - modules
-         - repositories
-         - services
-         - tests
-         - transformers
+   |__ 📁 modules
+       |__ 📁 ...
+       |__ 📁 contact
+       |   |__ 📁 entities
+       |   |   |__ 📄 contact.entity.ts
+       |   |
+       |   |__ 📁 use-cases
+       |   |   |__ 📁 ...
+       |   |   |__ 📁 create-contact
+                   |__ 📁 tests
+       |   |   |   |__ 📄 create-contact.command.ts
+       |   |   |   |__ 📄 create-contact.controller.ts
+       |   |   |   |__ 📄 create-contact.module.ts
+       |   |   |   |__ 📄 create-contact.response.ts
+       |   |   |   |__ 📄 create-contact.use-case.ts
+       |   |   |
+       |   |   |__ 📁 update-contact
+       |   |   |__ 📁 ...
+       |   |
+       |   |__ 📄 contact.module.ts
+       |
+       |__ 📁 ...
 ```
 
 ### File naming conventions
@@ -435,7 +442,7 @@ The project is organized into the following components:
 
 1. **Entity**: Define the data structure for a todo item.
 
-2. **DTO (Data Transfer Object) and Transformer**: Create DTOs to transfer data between layers and transformers to convert to the correct response
+2. **Command and response**: Create commands to transfer data between layers and responses to convert to the correct response.
 
 3. **Controller**: Implement the API controllers to handle incoming requests and interact with the service layer.
 
@@ -443,7 +450,7 @@ The project is organized into the following components:
 
 5. **Tests**: Write comprehensive tests to ensure the reliability and correctness of your code.
 
-6. **Service and Repository**: Develop the service layer to handle business logic and the repository layer to interact with the database.
+6. **Use case and Repository**: Develop the service layer to handle business logic and the repository layer to interact with the database.
 
 7. **Documentation**: Document your API endpoints to make it easy for others to use your backend.
 
@@ -564,31 +571,29 @@ Now the Todo entity has a many-to-one relationship with the User entity, and the
 
 After defining the Todo entity and its relation with the User entity, you need to create a migration to apply the changes to the database schema.
 
-First import your entity in the `models.ts` file in the `src/config/sql/models` folder.
-
-Next, run the following command in your terminal:
+Run the following command in your terminal:
 
 ```bash
 pnpm typeorm migration:generate src/config/sql/migrations/CreateTodoEntity
 ```
 
-This command creates a new migration file with the name `CreateTodoEntity.ts`. Add the generated migration class to the `mainMigrations` in the `index.ts` file.
+This command creates a new migration file with the name `CreateTodoEntity.ts`. Add the generated migration class to the `migrations` folder which can be found `src/config/sql/migrations`.
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## PROJECT: DTO & Transformer (and documentation)
-### Data Transfer Object (DTO)
-Data Transfer Objects (DTOs) are used to defines how the data will be sent over the network. The DTOs will validate the data and transform it to the correct format before sending it to the controller.
+## USE CASE: Create Todo (1/5)
+### Command
+Commands are used to defines how the data will be sent over the network. The commands will validate the data and transform it to the correct format before sending it to the controller.
 
-First we will create a DTO for creating a todo item. Create a new file called `create-todo.dto.ts` in the `src/modules/todo/dtos` folder and define the CreateTodoDto class with the specified fields.
+First we will create a command for creating a todo item. Create a new file called `create-todo.command.ts` in the `src/modules/todo/use-cases/create-todo` folder and define the CreateTodoCommand class with the specified fields.
 
 ```typescript
-// src/modules/todo/dtos/create-todo.dto.ts
+// src/modules/todo/use-cases/create-todo/create-todo.command.ts
 
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator'
 import { IsNullable } from '../../../util/validators/is-nullable.validator.js'
 
-export class CreateTodoDto {
+export class CreateTodoCommand {
   @IsNotEmpty()
   title: string
 
@@ -602,57 +607,35 @@ export class CreateTodoDto {
 }
 ```
 
-In the code above, you define the CreateTodoDto class with the `title`, `description`, and `deadline` fields. The `@IsNotEmpty` decorator is used to validate that the `title` field is not empty, and the `@IsString` decorator is used to validate that the `description` field is a string. The `@IsDateString` decorator is used to validate that the `deadline` field is a valid date string. The `@IsNullable` decorator is used to allow the `description` and `deadline` fields to be nullable.
+In the code above, you define the CreateTodoCommand class with the `title`, `description`, and `deadline` fields. The `@IsNotEmpty` decorator is used to validate that the `title` field is not empty, and the `@IsString` decorator is used to validate that the `description` field is a string. The `@IsDateString` decorator is used to validate that the `deadline` field is a valid date string. The `@IsNullable` decorator is used to allow the `description` and `deadline` fields to be nullable.
 
 To view all possible decorators using class-validator, see [docs](https://github.com/typestack/class-validator)
 
-For the update call we will use the same DTO, because we only want to update the title, description and deadline.
-
-
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-### Transformer
-Transformers are used to convert the data to the correct format before sending the response to the client. In this project, you will define a TodoTransformer to transform the todo item to the correct format before sending it to the client.
+### Response
+Responses are used to define the data structure for the response of the API endpoints. The responses will transform the data to the correct format before sending it to the frontend.
 
-First we will create a transformer and transformer type for the todo item. Create a new file called `todo.transformer.ts` in the `src/modules/todo/transformers` folder and define the TodoTransformer class with the specified fields.
+Create a new file called `create-todo.response.ts` in the `src/modules/todo/use-cases/create-todo` folder and define the CreateTodoResponse class with the specified fields.
 
 ```typescript
-// src/modules/todo/transformers/todo.transformer.ts
+export class CreateTodoResponse {
+  uuid: string
 
-import { Todo } from '../entities/todo.entity'
-import { Transformer } from '@appwise/transformer'
-
-export class TodoTransformerType {
-   uuid: string
-   createdAt: Date
-   updatedAt: Date
-   title: string
-   description: string | null
-   deadline: string | null
-   completed: boolean
-}
-
-export class TodoTransformer extends Transformer<Todo, TodoTransformerType> {
-  transform (todo: Todo): TodoTransformerType {
-    return {
-      uuid: todo.uuid,
-      createdAt: todo.createdAt,
-      updatedAt: todo.updatedAt,
-      title: todo.title,
-      description: todo.description,
-      deadline: todo.deadline?.toISOString() ?? null,
-      completed: todo.completed
-    }
+  constructor (todo: Todo) {
+    this.uuid = todo.uuid
   }
 }
 ```
 
-In the code above, you define the TodoTransformer class with the `transform` method that takes a todo item as an argument and returns a transformed todo item in the correct format.
+We only return the necessary data in the response. In this case, we only return the `uuid` so that the frontend can use it to retrieve the todo item later with the detail call.
+
+On updates and deletes, we will return no data, only a status code.
 
 ### Documentation
 To document the API endpoints, you will use the `@ApiProperty` decorator from the `@nestjs/swagger` package to define the request and response schemas for the API endpoints.
 
-First we will edit the `create-todo.dto.ts` file in the `src/modules/todo/dtos` folder and add the `@ApiProperty` decorator to the `CreateTodoDto` class to define the request schema for the create todo endpoint.
+First we will edit the `create-todo.command.ts` file in the `src/modules/todo/use-cases/create-todo` folder and add the `@ApiProperty` decorator to the `CreateTodoCommand` class to define the request schema for the create todo endpoint.
 
 ```typescript
 // src/modules/todo/dtos/create-todo.dto.ts
@@ -661,7 +644,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator'
 import { IsNullable } from '../../../util/validators/is-nullable.validator'
 
-export class CreateTodoDto {
+export class CreateTodoCommand {
   @ApiProperty()
   @IsNotEmpty()
   title: string
@@ -678,113 +661,45 @@ export class CreateTodoDto {
 }
 ```
 
-Second we will edit the `todo.transformer.ts` file in the `src/modules/todo/transformers` folder and add the `@ApiProperty` decorator to the `TodoTransformerType` class to define the response schema for the todo item.
-
-```typescript
-// src/modules/todo/transformers/todo.transformer.ts
-
-import { ApiProperty } from '@nestjs/swagger'
-import { Todo } from '../entities/todo.entity'
-import { Transformer } from '@appwise/express-dto-router'
-
-export class TodoTransformerType {
-  @ApiProperty()
-  uuid: string
-
-  @ApiProperty()
-  createdAt: Date
-
-  @ApiProperty()
-  updatedAt: Date
-
-  @ApiProperty()
-  title: string
-
-  @ApiProperty({ type: String, nullable: true })
-  description: string | null
-
-  @ApiProperty({ type: String, format: 'date-time', nullable: true })
-  deadline: Date | null
-
-  @ApiProperty()
-  completed: boolean
-}
-
-// ... other code
-```
-
-In the code above, you define the request and response schemas for the create todo endpoint using the `@ApiProperty` decorator. The `@ApiProperty` decorator takes an optional argument to define the type, format, and nullable properties of the schema.
+Don't forget to add the `@ApiProperty` decorator to the `CreateTodoResponse` class in the `create-todo.response.ts` file to define the response schema for the create todo endpoint.
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## PROJECT: Controller
+## USE CASE: Create Todo (2/5)
+### Controller
 
-Controllers are used to handle incoming requests and interact with the service layer to process the data. In this project, you will define a TodoController to handle the CRUD operations for the todo items.
+Controllers are used to handle incoming requests and interact with the service layer to process the data. We will create a controller for every use case.
 
 ### Controller Definition
-The TodoController is a class that defines the API endpoints for the todo items. It includes the following methods to handle the CRUD operations for the todo items:
+The CreateTodoController is a class that defines the API endpoints for the creation of todo items.
 
-- **createTodo**: Create a new todo item.
-- **getTodos**: Retrieve a list of all todo items.
-- **getTodo**: Retrieve a specific todo item by its unique identifier.
-- **updateTodo**: Update the title, description, and deadline of a todo item.
-- **deleteTodo**: Delete a todo item by its unique identifier.
-- **completeTodo**: Mark a todo item as completed.
-- **uncompleteTodo**: Mark a completed todo item as uncompleted.
-
-First we will create a new file called `todo.controller.ts` in the `src/modules/todo/controllers` folder and define the TodoController class with the specified methods.
+Create a new file called `create-todo.controller.ts` in the `src/modules/todo/use-cases/create-todo` folder and define the CreateTodoController class with the specified methods.
 
 ```typescript
-// src/modules/todo/controllers/todo.controller.ts
-
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
-import { CreateTodoDto } from '../dtos/create-todo.dto.js'
-import { TodoTransformerType } from '../transformers/todo.transformer.js'
-import { UserTransformerType } from '../../users/transformers/user.transformer.js'
-import { KnownError } from '../../../utils/Exceptions/errors.js'
+// src/modules/todo/use-cases/create-todo/todo.controller.ts
 
 @ApiTags('Todo')
 @Controller('todos')
 export class TodoController {
 
   @Post()
-  @ApiResponse({
-    status: 201,
-    description: 'The todo has been successfully created.',
-    type: TodoTransformerType
-  })
+  @ApiCreatedResponse({ type: CreateTodoResponse })
   async createTodo (
-    @Body() createTodoDto: CreateTodoDto,
+    @Body() createTodoCommand: CreateTodoCommand,
   ): Promise<void> {
-    throw new KnownError('not_found')
+    // Not implemented
   }
-
-  @Get(':todo')
-  @ApiResponse({
-    status: 200,
-    description: 'The todo has been successfully received.',
-    type: UserTransformerType
-  })
-  async getTodo (
-    @Param('todo', ParseUUIDPipe) todoUuid: string
-  ): Promise<void> {
-    throw new KnownError('not_found')
-  }
-
 }
 
 ```
 
-In the code above, you define the TodoController class with the `createTodo` and `getTodo` methods to handle the create and get operations for the todo items.
+In the code above, you define the TodoController class with the `createTodo` method to handle the create operations for the todo items.
 
-The `@Post` and `@Get` decorators are used to define the API endpoints for the create and get operations, and the `@ApiResponse` decorator is used to define the response schema for the API endpoints.
+The `@Post` decorators is used to define the API endpoints for the create operations, and the `@ApiResponse` decorator is used to define the response schema for the API endpoints.
 
-The `@Body` and `@Param` decorators are used to extract the request body and URL parameters from the incoming requests.
+The `@Body` decorators is used to extract the request body from the incoming requests.
 
-The `ParseUUIDPipe` is used to validate and parse the UUID parameter from the URL, more info about pipes can be found [here](https://docs.nestjs.com/pipes).
-
-For now we use `Promise&lt;void&gt;` as return type, but we will change this later to the correct return type once we have the service and repository setup.
+For now we use `Promise&lt;void&gt;` as return type, but we will change this later to the correct return type once we have the use-case setup.
 
 Also see the [NestJs documentation](https://docs.nestjs.com/controllers) for more information about controllers.
 
@@ -796,34 +711,26 @@ Furthermore, have a look into the auth and user module, where all the authentica
 
 Also see the [NestJs documentation](https://docs.nestjs.com/security/authentication) for more information about security and authentication.
 
-### Your turn!
-
-Now create the other methods for the controller!
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## PROJECT: Module
+## USE CASE: Create Todo (3/5)
+### Module
 
-Modules are used to organize the components of the application into cohesive units. In this project, you will define a TodoModule to encapsulate the related functionality for the todo items.
+Modules are used to organize the components of the application into cohesive units. We will create a module for every use case. We will create also a module that encapsulates all modules related to the todo items called `TodoModule`. This module will be imported into the root application module to make it available to the application.
 
 ### Module Definition
 
-The TodoModule is a class that defines the components of the application related to the todo items. It includes the following components:
+The CreateTodoModule is a class that defines the components of the application related to the creation of todo items. It includes the following components:
 
 - **Entity**: Define the data structure for a todo item.
-- **Controller**: Define the controller for handling the CRUD operations for the todo items.
-- **Service**: Define the service for handling the business logic for the todo items.
-- **Repository**: Define the repository for interacting with the database for the todo items.
+- **Controller**: Define the controller for handling the operations for the todo items.
+- **Use case**: Define the service for handling the business logic for the todo items.
 
-First we will create a new file called `todo.module.ts` in the `src/modules/todo` folder and define the TodoModule class with the specified components.
+First we will create a new file called `create-todo.module.ts` in the `src/modules/todo/use-cases/create-todo` folder and define the CreateTodoModule class with the specified components.
 
 ```typescript
-// src/modules/todo/todo.module.ts
-
-import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { Todo } from './entities/todo.entity.js'
-import { TodoController } from './controllers/todo.controller.js'
+// src/modules/todo/use-cases/create-todo/create-todo.module.ts
 
 @Module({
   imports: [TypeOrmModule.forFeature([Todo])],
@@ -831,46 +738,19 @@ import { TodoController } from './controllers/todo.controller.js'
   providers: [],
   exports: []
 })
-export class TodoModule {}
+export class CreateTodoModule {}
 ```
 
 In the code above, you define the TodoModule class with the `imports`, `controllers`, `providers`, and `exports` properties. The `imports` property is used to import the TypeOrmModule to provide the Todo entity to the application. The `controllers` property is used to define the TodoController as a controller for the TodoModule. The `providers` and `exports` properties are used to define the service and repository components for the TodoModule.
 
 Also see the [NestJs documentation](https://docs.nestjs.com/modules) for more information about modules.
 
-After defining the TodoModule, you need to import the TodoModule into the root application module (`src/app.module.ts`) to make it available to the application. Now when you run the application (`pnpm start:dev`), the TodoModule will be loaded and the TodoController will be available to handle the API requests for the todo items and the documentation will be available in the [Swagger UI](http://localhost:3000/api).
+After defining the CreateTodoModule, you need to created a `todo.module.ts` file in the todo folder that imports the CreateTodoModule. This TodoModule needs to be imported into the root application module (`src/app.module.ts`) to make it available to the application. Now when you run the application (`pnpm start:dev`), the TodoModule will be loaded and the TodoController will be available to handle the API requests for the todo items and the documentation will be available in the [Swagger UI](http://localhost:3000/api/docs).
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## PROJECT: Repository
-
-Repositories are used to interact with the database for the application. In this project, you will define a TodoRepository to interact with the database for the todo items.
-
-### Repository Definition
-
-The TodoRepository is a class that defines the methods to interact with the database for the todo items.
-
-First we will create a new file called `todo.repository.ts` in the `src/modules/todo/repositories` folder and define the TodoRepository class with the specified methods.
-
-```typescript
-import { EntityManager, Repository } from 'typeorm'
-import { Injectable } from '@nestjs/common'
-import { InjectEntityManager } from '@nestjs/typeorm'
-import { Todo } from '../entities/todo.entity.js'
-
-@Injectable()
-export class TodoRepository extends Repository<Todo> {
-  constructor (@InjectEntityManager() entityManager: EntityManager) {
-    super(Todo, entityManager)
-  }
-}
-```
-
-In the code above, you define the TodoRepository class that extends the Repository class from TypeORM. The TodoRepository class includes the `constructor` method to inject the EntityManager and call the super constructor with the Todo entity and the EntityManager. This allows you to use the methods provided by the Repository class to interact with the database for the todo items. You can add custom methods to the TodoRepository class to handle the specific database operations for the todo items, like find all todos of a user, find a todo by its uuid, etc.
-
-💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
-
-## PROJECT: Testing
+## Use Case: Create Todo (4/5)
+### Testing
 
 At Wisemen we work with [test driven development](https://martinfowler.com/bliki/TestDrivenDevelopment.html). This means that we write tests before we write the actual code. This way we can make sure that the code we write is working as expected.
 
@@ -880,62 +760,43 @@ End-to-end (E2E) testing is a software testing method that tests the entire soft
 First we will create a new file called `todo.e2e.test.ts` in the `src/modules/todo/tests` folder and define the TodoE2eTest class with the specified tests.
 
 ```typescript
-// src/modules/todo/tests/todo.e2e.test.ts
-import { expect } from 'expect'
-import { before, describe, it, after } from 'node:test'
-import { ValidationPipe, type INestApplication } from '@nestjs/common'
-import { Test } from '@nestjs/testing'
-import request from 'supertest'
-import { HttpAdapterHost } from '@nestjs/core'
-import { HttpExceptionFilter } from '../../../utils/Exceptions/http-exception.filter.js'
-import { AppModule } from '../../../app.module.js'
-import { UserSeeder } from '../../user/tests/user.seeder.js'
-import { UserSeederModule } from '../../user/tests/user-seeder.module.js'
+// src/modules/todo/use-cases/create-todo/create-todo.e2e.test.ts
+import { before, describe, after } from 'node:test'
+import type { DataSource } from 'typeorm'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { setupTest } from '../../../../../test/setup/test-setup.js'
+import { TestContext } from '../../../../../test/utils/test-context.js'
+import type { TestUser } from '../../../users/tests/setup-user.type.js'
+import { RoleSeeder } from '../../tests/seeders/role.seeder.js'
+import { Role } from '../../entities/role.entity.js'
+import { RoleEntityBuilder } from '../../tests/builders/entities/role-entity.builder.js'
 
+describe('Create todo', () => {
+  let app: NestExpressApplication
+  let dataSource: DataSource
 
-describe('Todo tests', async () => {
-  let app: INestApplication
-  let userSeeder: UserSeeder
+  let context: TestContext
+
+  let adminUser: TestUser
+  let readonlyUser: TestUser
 
   before(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [
-        AppModule,
-        UserSeederModule
-      ]
-    }).compile()
+    ({ app, dataSource, context } = await setupTest())
 
-    app = moduleRef.createNestApplication()
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-        transformOptions: {
-          enableImplicitConversion: true
-        }
-      })
-    )
-
-    const httpAdapterHost = app.get(HttpAdapterHost)
-
-    app.useGlobalFilters(new HttpExceptionFilter(httpAdapterHost))
-
-    userSeeder = moduleRef.get(UserSeeder)
-
-    await app.init()
+    adminUser = await context.getAdminUser()
+    readonlyUser = await context.getReadonlyUser()
+    
   })
 
   after(async () => {
     await app.close()
   })
-
 })
 ```
 
 In the above code, you define the TodoE2eTest class with the `before` and `after` hooks to set up and tear down the application for the tests. The `before` hook is used to create the application instance and set up the global pipes and filters, and the `after` hook is used to close the application instance after the tests are completed.
 
-Now you need to add the tests for the create, get, update, delete, complete, and uncomplete operations for the todo items. In our tests we will check the following cases:
+Now you need to add the tests for the create operations for the todo items. In our tests we will check the following cases:
 
 - **Unauthenticated**: Test the API endpoints without authentication.
 - **Unauthorized**: Test the API endpoints with an unauthorized user.
@@ -956,11 +817,9 @@ describe('Create todo', () => {
     })
 
     it('should return 401 when not authorized', async () => {
-      const { token } = await userSeeder.unAuthorizedUser()
-
       const response = await request(app.getHttpServer())
         .post('/todos')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${readonlyUser.token}`)
         .send({})
 
       expect(response.status).toBe(400)
@@ -971,20 +830,24 @@ describe('Create todo', () => {
 
       const response = await request(app.getHttpServer())
         .post('/todos')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${adminUser.token}`)
         .send({})
 
       expect(response.status).toBe(400)
     })
 
     it('should return 201', async () => {
-      const dto = todoSeeder.generateCreateTodoDto()
+      const dto = new CreateTodoCommandBuilder()
+        .withTitle('Test Todo')
+        .withDescription('Test Description')
+        .withDeadline(new Date())
+        .build()
 
       const { token } = await userSeeder.setupUser()
 
       const response = await request(app.getHttpServer())
         .post('/todos')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${adminUser.token}`)
         .send(dto)
 
       expect(response.status).toBe(201)
@@ -995,62 +858,48 @@ describe('Create todo', () => {
 
 ```
 
-In the above code, you can see we use Seeders to create the user and todo items for the tests. The `userSeeder` and `todoSeeder` are used to create the user and todo items with the specified data for the tests. The `generateCreateTodoDto` method is used to generate the create todo DTO with the specified data for the tests. In the following chapters we will create the seeders and the DTO generator.
+In the above code, you can see we use a builder to create the createTodoCommand. The `CreateTodoCommandBuilder` is used to create command with specified data for the tests. 
 
-### Seeder
-Seeders are used to create the data for the tests. In this project, you will define a TodoSeeder to create the todo items for the tests.
+### Builders
+Builders are used to create the data for the tests. In this project, you will define a CreateTodoCommandBuilder to create the command for the tests.
 
-First we will create a new file called `todo.seeder.ts` in the `src/modules/todo/tests` folder and define the TodoSeeder class with the specified methods.
+First we will create a new file called `create-todo-command.builder.ts` in the test folder of the use case and define the CreateTodoCommandBuilder class with the specified methods.
 
 ```typescript
-// src/modules/todo/tests/todo.seeder.ts
+// src/modules/todo/use-cases/create-todo/tests/create-todo-command.builder.ts
 
-import { Injectable } from '@nestjs/common'
-import { type CreateTodoDto } from '../dtos/create-todo.dto.js'
+export class CreateTodoCommandBuilder {
+  private command: CreateTodoCommand
 
-@Injectable()
-export class TodoSeeder {
-    constructor(
-    private readonly todoRepository: TodoRepository
-  ) {}
-  
-  generateCreateTodoDto (userUuid: string): CreateTodoDto {
-    return {
-      userUuid,
-      title: 'Test todo',
-      description: 'Test description',
-      deadline: new Date().toISOString()
-    }
+  constructor () {
+    this.command = new CreateTodoCommand()
+    this.command.title = 'Test Todo'
   }
 
-  async createOneTodo (userUuid: string): Promise<Todo> {
-    return await this.todoRepository.save(this.generateCreateTodoDto(userUuid))
+  withTitle (title: string): this {
+    this.command.title = title
+    return this
   }
 
-   // ... other methods
+  withDescription (description: string | null): this {
+    this.command.description = description
+    return this
+  }
+
+  withDeadline (deadline: Date | null): this {
+    this.command.deadline = deadline
+    return this
+  }
+
+  build (): CreateTodoCommand {
+    return this.command
+  }
 }
 ```
 
-In the code above, you define the TodoSeeder class with the `generateCreateTodoDto` method to generate the create todo DTO with the specified data for the tests. In this seeder you will also add todo items to the database to use in the tests.
+In the code above, you define the CreateTodoCommand class. Here you can see that all the necessary fields are set to a default value in the constructor. You can use the `withTitle`, `withDescription`, and `withDeadline` methods to set the specified data for the tests. The `build` method is used to return the created command with the specified data.
 
-### Test Module
-
-Now you need to create a test module to provide the TodoSeeder to the application for the tests. First we will create a new file called `todo.seeder.module.ts` in the `src/modules/todo/tests` folder and define the TodoSeederModule class with the specified components.
-
-```typescript
-// src/modules/todo/tests/todo-seeder.module.ts
-
-import { Module } from '@nestjs/common'
-import { TodoSeeder } from './todo.seeder.js'
-
-@Module({
-  providers: [TodoSeeder],
-  exports: [TodoSeeder]
-})
-export class TodoSeederModule {}
-```
-
-In the code above, you define the TodoSeederModule class with the `providers` and `exports` properties to define the TodoSeeder as a provider and export it to make it available to the application for the tests. Now you need to import the TodoSeederModule into the test module (`src/modules/todo/tests/todo.e2e.test.ts`) to make it available to the application for the tests.
+Builders are also used to create entities for the tests. For the update and delete tests you will need to create a Todo entity builder to insert the data into the database. So you can perform the update and delete operations on existing data.
 
 ### Running tests
 
@@ -1060,51 +909,57 @@ Now run the tests with `pnpm test`, normally you will see the tests fail because
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
-## PROJECT: Service
+## Use Case: Create Todo (5/5)
+### Use Case
 
-Services are used to handle the business logic for the application. In this project, you will define a TodoService to handle the CRUD operations for the todo items.
+Use case are used to handle the business logic for the application. In this example we will create a use case for the creation of a todo item. The use case will use the TodoRepository to interact with the database for the todo items.
 
-### Service Definition
+### Use Case Definition
 
-The TodoService is a class that defines the methods to handle the business logic for the todo items.
+The CreateTodoUseCase is a class that defines the methods to handle the business logic for the todo items.
 
-First we will create a new file called `todo.service.ts` in the `src/modules/todo/services` folder and define the TodoService class with the specified methods.
+First we will create a new file called `create-todo.use-case.ts` in the use case folder and define the CreateTodoUseCase class with the specified methods.
 
 ```typescript
 // src/modules/todo/services/todo.service.ts
 
-import { Injectable } from '@nestjs/common'
-import { TodoRepository } from '../repositories/todo.repository.js'
-import { CreateTodoDto } from '../dtos/create-todo.dto.js'
-import { Todo } from '../entities/todo.entity.js'
-
 @Injectable()
-export class TodoService {
-  constructor (private readonly todoRepository: TodoRepository) {}
+export class CreateTodoUseCase {
+  constructor (
+    @InjectRepository(Todo)
+    private todoRepository: Repository<Todo>,
+  ) {}
 
-  async createTodo (createTodoDto: CreateTodoDto): Promise<Todo> {
-    const todo = this.todoRepository.create(createTodoDto)
+  async execute (command: CreateTodoCommand): Promise<CreateTodoResponse> {
+    const todo = this.todoRepository.create(command)
+    await this.todoRepository.insert(todo)
 
-    return this.todoRepository.save(todo)
+    return new CreateTodoResponse(todo)
   }
-
-  async getTodo (todoUuid: string): Promise<Todo> {
-    return await this.todoRepository.findOneOrFail({ where: { uuid: todoUuid } })
-  }
-
-  // ... other methods
 }
 ```
 
-In the code above, you define the TodoService class with the `createTodo` and `getTodo` methods to handle the create and get operations for the todo items. The `createTodo` method is used to create a new todo item with the specified data, and the `getTodo` method is used to retrieve a specific todo item by its unique identifier. You can add other methods to the TodoService class to handle the update, delete, complete, and uncomplete operations for the todo items.
+In the code above, you define the CreateTodoUseCase class with the `execute` method to handle the create operation for the todo items. The `execute` method is used to create a new todo item with the specified data.
 
-Add the service and repository as providers to the TodoModule and inject the TodoService into the TodoController to use the methods in the controller. You also need to export the TodoService in the module to make it available to the application.
-
-Now you need to add the methods for the update, delete, complete, and uncomplete operations for the todo items. In these methods you will use the TodoRepository to interact with the database for the todo items.
+Add the use case as a provider to the CreateTodoModule and inject the CreateTodoUseCase into the CreateTodoController to use the methods in the controller. 
 
 Regularly run the tests with `pnpm test` to make sure that the methods are working as expected.
 
-Once all methods are implemented and the tests are passing, you can make your final pull request and wait for the final feedback.
 
-## Finishing Up
+## Other Use Cases
+Now that you have completed the Create Todo use case, you can move on to the next use cases:
+
+- **Get All Todos**: Users can retrieve a list of all todo items of the authenticated user.
+- **Get a Todo**: Users can retrieve a specific todo item by its unique identifier.
+- **Update a Todo**: Users can update the title, description, and deadline of a todo item.
+- **Delete a Todo**: Users can delete a todo item by its unique identifier.
+- **Complete a Todo**: Users can mark a todo item as completed.
+- **Uncomplete a Todo**: Users can mark a completed todo item as uncompleted.
+
+
+If you are getting stuck, have a look at the other modules in the project template. You can find examples in the user, role, contact... modules. And don't hesitate to ask your buddy for help. They are there to help you and guide you through the process.
+
+Once you have implemented all the use cases, and every test is passing, you can move on to the next step.
+
+## Finishing up
 Congratulations! You have successfully completed our Wisemen NestJs workshop. Make sure that your project has been pushed to your repository and that you have created a pull request. Fix any remarks that you have received from your mentor and wait for the final feedback.
