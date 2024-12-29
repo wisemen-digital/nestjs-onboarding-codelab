@@ -36,7 +36,7 @@ Go at your own pace and be sure to ask for help when needed from your buddy or a
 #### You will be working on a small to-do app 📋
 This app wil teach you our core conventions and ways of working in Node.js backends.
 We expect you to make **pull request** of your work so your buddy can review your code and keep track of your progress 🫣.
-Don't know how to make pull requests yet? No worries more wil be explained in the next step.
+Don't know how to make pull requests yet? No worries more is explained [here](https://wisemen-digital.github.io/nestjs-bible/development-environment/pull-requests).
 
 Good luck!!!
 
