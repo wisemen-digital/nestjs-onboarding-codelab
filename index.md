@@ -15,7 +15,7 @@ status: Draft
 ### Welcome to the NestJS onboarding 👋!
 Strap in and get ready to learn how we build killer apps at wisemen 🔥.
 
-## PART 1: Getting Started
+## Getting Started
 
 #### You will learn how to work with
  - [Typescript](https://www.typescriptlang.org/docs/handbook/intro.html): Because a world without types is no world to live in
@@ -41,233 +41,22 @@ Don't know how to make pull requests yet? No worries more wil be explained in th
 Good luck!!!
 
 
-## What you'll need ️🛠️: iTerm2
+## What you'll need ️🛠️
 
 Being a part of our Node team requires you to have ... well, Node.js 😅.
 But to get Node.js we'll start by setting up your terminal and installing Homebrew 🍺, a popular package manager for MacOS.
 
-### Installing iTerm2
-
-The unleash your full hacker-man potential 😎 we'll install [iTerm2](https://iterm2.com/) to replace the default MacOS terminal.
-
-1. **Install iTerm2**:
-  Download the latest version of iTerm2 from [https://iterm2.com](https://iterm2.com).
-
-
-2. **Install Oh My Zsh**:
-  [Oh My Zsh](https://ohmyz.sh/) brings a lot of new goodies and allows for better completion on commands through plugins.
-  Open iTerm2 and run the following command:
-    ```bash
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    ```
-    This command will download and install Oh My Zsh and set Zsh as your default shell.
-
-
-3. **Install the recommend fonts**:
-
-    Download each file. Double-click on each file followed by clicking on "Install". This will make `MesloLGS NF` font available to all applications on your system.
-   - [MesloLGS NF Regular.ttf](
-     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
-   - [MesloLGS NF Bold.ttf](
-     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
-   - [MesloLGS NF Italic.ttf](
-     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
-   - [MesloLGS NF Bold Italic.ttf](
-     https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
-
-
-
-4. **Install Powerlevel10k**:
-    Run the following command:
-    ```bash
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-    ```
-
-    Add or change the line `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`
-    Restart Zsh with `exec zsh`.
-
-
-5. **Configure Powerlevel10k**:
-   Run the following command:
-    ```bash
-    p10k configure
-    ```
-    This command will start the configuration wizard. Follow the instructions to customize your prompt.
-
-_To complete your hacker man arc try out some definitely useful tools like lolcat and cowsay.
-Be sure to share any other essential tools for iTerm overlords you know of 👑_
-
-## What you'll need ️🛠️: Homebrew 🍺
-### Installing Homebrew 🍺
-
-1. **Install Homebrew** (if not already installed)
-   Open a terminal and run the following command:
-
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
-
-2. **Update Homebrew**: Before installing any packages, it's a good idea to update Homebrew to the latest version. Run the following command to do so:
-
-   ```bash
-   brew update
-   ```
-
-_Did you know that our tech lead also home brews his own beers?_ 😋🍺
-
-## What you'll need ️🛠️: Node.js
-### Installing Node.js
-
-1. **Install Node.js**:
-   Now that Homebrew is installed and updated, you can install Node.js by running the following command:
-
-   ```bash
-   brew install node
-   ```
-
-   This command will install the latest stable version of Node.js on your system.
-  Verify your installation with:
-
-   ```bash
-   node --version
-   npm --version
-   ```
-
-   If both commands return version numbers, Node.js and npm are installed successfully.
-
-
-2. **Install pnpm**:
-    We use [pnpm](https://pnpm.io/) as our package manager for Node.js. To install pnpm, run the following command:
-
-   ```bash
-   npm install -g pnpm
-   ```
-
-   This command will install the latest version of pnpm and make it available system-wide.
-
-
-3. **Install TypeScript**:
-   We use [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html) as our programming language. To install TypeScript, run the following command:
-
-   ```bash
-   pnpm install -g typescript
-   ```
-    This command will install the latest version of TypeScript and make it available system-wide.
-    Verify your typescript installation with:
-
-     ```bash
-     tsc --version
-     ```
-
-    If the command returns a version number, TypeScript is installed correctly.
-
-
-## What you'll need 🛠️: Docker
-### Installing Docker
-
-We use Docker locally to run our required services like databases, message brokers, and more. Docker allows us to run these services in isolated containers without having to install them directly on our system.
-
-1. **Install Docker Desktop**:
-   Download and install Docker Desktop from the [official website](https://www.docker.com/products/docker-desktop).
-
-2. **Run Docker Desktop**:
-    Open Docker Desktop and make sure it's running. You should see a whale icon in your menu bar.
-
-3. **Verify Installation**:
-    Run the following command in your terminal to verify that Docker is installed correctly:
-
-    ```bash
-    docker --version
-    ```
-
-    If the command returns a version number, Docker is installed correctly.
-
-## What you'll need ️🛠️: VCS
-### Version Control
-
-#### Git
-Our preferred version control system at Wisemen.
-It should come preinstalled on your mac. You can verify your installation with:
-```bash
-git -v
-```
-If you are not familiar with git, you can learn it here in an interactive way:
-[Learn Git](https://learngitbranching.js.org/)
-
-#### Github
-
-We use [Github](https://github.com/wisemen-digital) (and previously [Bitbucket](https://bitbucket.org/appwise/workspace/overview)) as our repository hosting service.
-Your future projects will be hosted on Github. So be sure to link your Wisemen work email to your personal github account or create a new work account before continuing.
-If you have not received an invite for the Wisemen github organisation be sure to ask your budy about it.
-
-Here is great article to get you started with github:
-[Github Git tutorial](https://docs.github.com/en/get-started/quickstart/hello-world)   🤓
-It also teaches you how to create **pull requests**, so keep this tab open for when you make your first pull request 🤞.
-
-_I can't see the main for the branches anymore_ 😵‍💫
-
-## What you'll need ️🛠️: IDE
-
-There are 2 different IDEs in use at Wisemen. You can use either **Visual Studio Code** or **WebStorm**.
-
-#### Visual Studio Code
-Visual Studio Code is an editor developed by Microsoft for Windows, Linux and macOS.
-It includes support for debugging, syntax highlighting, intelligent code completion, snippets, and code refactoring.
-
-Visual Studio Code is a free IDE. You can download it from the [website](https://code.visualstudio.com/download).
-
-#### WebStorm
-WebStorm is a JavaScript and Typescript IDE with a complete set of tools for client-side and server-side development and testing.
-It provides code completion, on-the-fly error detection, powerful navigation and refactoring for JavaScript, TypeScript, CSS, HTML and more.
-
-Webstorm is a paid IDE. You can get a license from Wisemen. Ask your buddy!
-
-[Download WebStorm](https://www.jetbrains.com/webstorm/download)
-
-_Opinions differ on which IDE is best. In truth both IDEs are fine, choose the one which supports your way of working the best_ 🙌
-
-
-## What you'll need ️🛠️: Figma
-
-Our talented designers work with **Figma** 👩‍🎨🧑‍🎨.
-Figma is a browser-based vector graphics editor and prototyping tool.
-We recommend you to install the desktop app.
-
-[Download Figma](https://www.figma.com/downloads/)
-
-Take a look around in Figma and try to get familiar with the tool. You will be using it a lot in the future.
-You can view all of our designs here:
-
-[Wisemen Figma](https://www.figma.com/files/team/1070403287155222588/Wisemen?fuid=1070747045190465434)
-
-To access the designs you need, you need to log in with your Wisemen account.
-The designs you need for this onboarding are: [Todo-app designs](https://www.figma.com/file/hebgv4Qx8VanMAQkO1NFpa/Onboarding-to-do?node-id=407-4095&t=2qdyy89lKwN7dFw3-0)
-
-We commonly leave notes on designs as feedback to our designers, but be sure to have a talk face to face as well 😄 or else...
-
-  <img width="200" src="img/afbeelding-voor-noodgevallen.png">
-
-_Figma balls_ 🍒
-
-## What you'll need ️🛠️: Tools
-
-### TablePlus
-
-TablePlus is a modern, native tool with an elegant UI that allows you to connect to a database.
-
-(TablePlus can be downloaded though SetApp)
-
-<!-- ### Linear access
-
-For this onboarding you will be working with Linear to track your progress. You can find the Linear board here:
-[Linear Todo]()
-
-Linear is used to track the progress of your project and manage the tasks that need to be done.
-All the requirements for the to-do app are in Linear. You will be creating tasks in the Linear to keep track of your progress.
-
-Linear contains all the requirements for creating the to-do app.
-
-*ToDo: Add link to Linear* -->
+Check our [backend Guidelines](https://wisemen-digital.github.io/nestjs-bible/development-environment) for the tools you need to install before starting the onboarding.
+
+- [Terminal Setup](https://wisemen-digital.github.io/nestjs-bible/development-environment/terminal)
+- [Package Manager](https://wisemen-digital.github.io/nestjs-bible/development-environment/package-manager)
+- [Node.js & TypeScript](https://wisemen-digital.github.io/nestjs-bible/development-environment/nodejs)
+- [Docker](https://wisemen-digital.github.io/nestjs-bible/development-environment/docker)
+- [Git](https://wisemen-digital.github.io/nestjs-bible/development-environment/git)
+- [IDE](https://wisemen-digital.github.io/nestjs-bible/development-environment/ide)
+- [Figma](https://wisemen-digital.github.io/nestjs-bible/development-environment/figma)
+
+If you have any questions or need help with the setup, don't hesitate to ask your buddy or a member of our circle 🤝.
 
 ## What you'll do 📋
 
