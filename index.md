@@ -36,7 +36,7 @@ Go at your own pace and be sure to ask for help when needed from your buddy or a
 #### You will be working on a small to-do app 📋
 This app wil teach you our core conventions and ways of working in Node.js backends.
 We expect you to make **pull request** of your work so your buddy can review your code and keep track of your progress 🫣.
-Don't know how to make pull requests yet? No worries more is explained [here](https://wisemen-digital.github.io/nestjs-bible/development-environment/pull-requests).
+Don't know how to make pull requests yet? No worries more is explained [here](https://wisemen-digital.github.io/backend-playbook/development-environment/pull-requests).
 
 Good luck!!!
 
@@ -46,15 +46,15 @@ Good luck!!!
 Being a part of our Node team requires you to have ... well, Node.js 😅.
 But to get Node.js we'll start by setting up your terminal and installing Homebrew 🍺, a popular package manager for MacOS.
 
-Check our [backend Guidelines](https://wisemen-digital.github.io/nestjs-bible/development-environment) for the tools you need to install before starting the onboarding.
+Check our [backend Guidelines](https://wisemen-digital.github.io/backend-playbook/development-environment) for the tools you need to install before starting the onboarding.
 
-- [Terminal Setup](https://wisemen-digital.github.io/nestjs-bible/development-environment/terminal)
-- [Package Manager](https://wisemen-digital.github.io/nestjs-bible/development-environment/package-manager)
-- [Node.js & TypeScript](https://wisemen-digital.github.io/nestjs-bible/development-environment/nodejs)
-- [Docker](https://wisemen-digital.github.io/nestjs-bible/development-environment/docker)
-- [Git](https://wisemen-digital.github.io/nestjs-bible/development-environment/git)
-- [IDE](https://wisemen-digital.github.io/nestjs-bible/development-environment/ide)
-- [Figma](https://wisemen-digital.github.io/nestjs-bible/development-environment/figma)
+- [Terminal Setup](https://wisemen-digital.github.io/backend-playbook/development-environment/terminal)
+- [Package Manager](https://wisemen-digital.github.io/backend-playbook/development-environment/package-manager)
+- [Node.js & TypeScript](https://wisemen-digital.github.io/backend-playbook/development-environment/nodejs)
+- [Docker](https://wisemen-digital.github.io/backend-playbook/development-environment/docker)
+- [Git](https://wisemen-digital.github.io/backend-playbook/development-environment/git)
+- [IDE](https://wisemen-digital.github.io/backend-playbook/development-environment/ide)
+- [Figma](https://wisemen-digital.github.io/backend-playbook/development-environment/figma)
 
 If you have any questions or need help with the setup, don't hesitate to ask your buddy or a member of our circle 🤝.
 
