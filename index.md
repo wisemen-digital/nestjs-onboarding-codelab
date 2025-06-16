@@ -50,7 +50,7 @@ Check our [backend Guidelines](https://wisemen-digital.github.io/backend-playboo
 
 - [Terminal Setup](https://wisemen-digital.github.io/backend-playbook/development-environment/terminal)
 - [Package Manager](https://wisemen-digital.github.io/backend-playbook/development-environment/package-manager)
-- [Node.js & TypeScript](https://wisemen-digital.github.io/backend-playbook/development-environment/nodejs)
+- [Node.js & TypeScript](https://wisemen-digital.github.io/backend-playbook/development-environment/node)
 - [Docker](https://wisemen-digital.github.io/backend-playbook/development-environment/docker)
 - [Git](https://wisemen-digital.github.io/backend-playbook/development-environment/git)
 - [IDE](https://wisemen-digital.github.io/backend-playbook/development-environment/ide)
