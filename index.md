@@ -332,7 +332,7 @@ To create a relation between the Todo and User entities, you can use the `@ManyT
 // src/modules/todo/entities/todo.entity.ts
 
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { User } from '../../user/entities/user.entity'
+import { User } from '../../../app/users/entities/user.entity.js'
 
 @Entity()
 export class Todo {
@@ -359,7 +359,7 @@ Now you need to add a one-to-many relationship on the User entity to complete th
 // src/modules/user/entities/user.entity.ts
 
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { Todo } from '../../todo/entities/todo.entity'
+import { Todo } from '../../../modules/todos/entities/todo.entity.js'
 
 @Entity()
 export class User {
@@ -408,7 +408,7 @@ First we will create a command for creating a todo item. Add the command in the 
 ```typescript
 // create-todo.command.ts
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator'
-import { IsNullable } from '../../../util/validators/is-nullable.validator.js'
+import { IsNullable } from '@wisemen/validators'
 
 export class CreateTodoCommand {
   @IsNotEmpty()
@@ -439,11 +439,11 @@ Create a new file called `create-todo.response.ts` in the `create-todo` use case
 // create-todo.response.ts
 export class CreateTodoResponse {
   uuid: string
-  createdAt: string,
-  updatedAt: string,
-  title: string,
-  description: string,
-  deadline: string | null,
+  createdAt: Date
+  updatedAt: Date
+  title: string
+  description: string
+  deadline: string | null
   completed: boolean
 
   constructor (todo: Todo) {
@@ -471,7 +471,7 @@ We will edit the `create-todo.command.ts` file and add the `@ApiProperty` decora
 // create-todo.command.ts
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator'
-import { IsNullable } from '../../../util/validators/is-nullable.validator'
+import { IsNullable } from '@wisemen/validators'
 
 export class CreateTodoCommand {
   @ApiProperty()
@@ -506,38 +506,36 @@ First we will create a new file called `create-todo.e2e.test.ts` in the `tests` 
 
 ```typescript
 // create-todo.e2e.test.ts
-import { before, describe, after, it} from 'node:test'
+import { before, describe, after, it } from 'node:test'
 import request from 'supertest'
 import { expect } from 'expect'
-import type { DataSource } from 'typeorm'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { setupTest } from '../../../../../test/setup/test-setup.js'
-import { TestContext } from '../../../../../test/utils/test-context.js'
-import type { TestUser } from '../../tests/setup-user.type.js'
-import { RoleSeeder } from '../../tests/seeders/role.seeder.js'
-import { Role } from '../../entities/role.entity.js'
-import { CreateTodoModule } from '../create-todo.module.js'
+import { TestAuthContext } from '../../../../../../test/utils/test-auth-context.js'
+import type { TestUser } from '../../../../../app/users/tests/setup-user.type.js'
+import { TestBench } from '../../../../../../test/setup/test-bench.js'
+import { EndToEndTestSetup } from '../../../../../../test/setup/end-to-end-test-setup.js'
+import { CreateTodoCommandBuilder } from './create-todo-command.builder.js'
 
 describe('Create todo', () => {
   let app: NestExpressApplication
-  let dataSource: DataSource
-
-  let context: TestContext
+  let context: TestAuthContext
+  let testSetup: EndToEndTestSetup
 
   let adminUser: TestUser
   let readonlyUser: TestUser
 
   before(async () => {
-    ({ app, dataSource, context } = await setupTest([CreateTodoModule]))
+    testSetup = await TestBench.setupEndToEndTest()
+    context = testSetup.authContext
+    app = testSetup.app
 
     adminUser = await context.getAdminUser()
-    readonlyUser = await context.getReadonlyUser()
+    readonlyUser = await context.getDefaultUser()
   })
 
   after(async () => {
-    await app.close()
+    await testSetup.teardown()
   })
-})
 ```
 
 In the above code, you defined the create todo test with the `before` and `after` hooks to set up and tear down the application for the tests. The `before` hook is used to create the application instance and set up the global pipes and filters, and the `after` hook is used to close the application instance after the tests are completed.
@@ -555,30 +553,27 @@ describe('Create todo', () => {
   // ... setup
 
   it('should return 401 when not authenticated', async () => {
-    const response = await request(app.getHttpServer())
-      .post('/todos')
+    const response = await request(app.getHttpServer()).post('/todos')
 
-    expect(response.status).toBe(401)
+    expect(response).toHaveStatus(401)
   })
 
-  it('should return 401 when not authorized', async () => {
+  it('should return 403 when not authorized', async () => {
     const response = await request(app.getHttpServer())
       .post('/todos')
       .set('Authorization', `Bearer ${readonlyUser.token}`)
       .send({})
 
-    expect(response.status).toBe(400)
+    expect(response).toHaveStatus(403)
   })
 
   it('should return 400 when the body is invalid', async () => {
-    const { token } = await userSeeder.setupUser()
-
     const response = await request(app.getHttpServer())
       .post('/todos')
       .set('Authorization', `Bearer ${adminUser.token}`)
       .send({})
 
-    expect(response.status).toBe(400)
+    expect(response).toHaveStatus(400)
   })
 
   it('should return 201', async () => {
@@ -593,7 +588,7 @@ describe('Create todo', () => {
       .set('Authorization', `Bearer ${adminUser.token}`)
       .send(dto)
 
-    expect(response.status).toBe(201)
+    expect(response).toHaveStatus(201)
   })
 
   // ... other tests
@@ -659,7 +654,7 @@ Builders are used to create entities for the tests. For the update and delete te
 
 Have a look into the `.env.test` file, this environment file is used when running the tests. Make sure you docker containers are running.
 
-Now run the tests with `pnpm test`, normally you will see the tests fail because we haven't implemented the methods yet. Now we can start implementing the use case and see the tests pass!
+Now run the tests with `pnpm test`(P.S. remember to run `pnpm build` before running the tests), normally you will see the tests fail because we haven't implemented the methods yet. Now we can start implementing the use case and see the tests pass!
 
 💡Don't forget to make a pull request of your work so your buddy can review your code and keep track of your progress. Keeping your PR's small and frequent is a good practice.
 
@@ -676,19 +671,30 @@ First we will create a new file called `create-todo.use-case.ts` in the use case
 
 ```typescript
 // create-todo.use-case.ts
+import { Injectable } from '@nestjs/common'
+import { Repository } from 'typeorm'
+import { InjectRepository } from '@wisemen/nestjs-typeorm'
+import { Todo } from '../../entities/todo.entity.js'
+import { AuthContext } from '../../../auth/auth.context.js'
+import { CreateTodoResponse } from './create-todo.response.js'
+import { CreateTodoCommand } from './create-todo.command.js'
+
 @Injectable()
 export class CreateTodoUseCase {
   constructor (
-    @InjectRepository(Todo)
-    private todoRepository: Repository<Todo>,
+    @InjectRepository(Todo) private readonly repository: Repository<Todo>,
+    private readonly authContext: AuthContext
   ) {}
 
-  async execute (
-    command: CreateTodoCommand
-  ): Promise<CreateTodoResponse> {
-    const todo = this.todoRepository.create(command)
+  async execute (command: CreateTodoCommand): Promise<CreateTodoResponse> {
+    const todo = this.repository.create({
+      title: command.title,
+      description: command.description,
+      deadline: command.deadline,
+      userUuid: this.authContext.getUserUuidOrFail().toString()
+    })
 
-    await this.todoRepository.insert(todo)
+    await this.repository.insert(todo)
 
     return new CreateTodoResponse(todo)
   }
@@ -710,6 +716,15 @@ Create a new file called `create-todo.controller.ts` in the `create-todo` use ca
 
 ```typescript
 // create-todo.controller.ts
+import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger'
+import { Body, Controller, Post } from '@nestjs/common'
+import { Permission } from '../../../permission/permission.enum.js'
+import { Permissions } from '../../../permission/permission.decorator.js'
+import { AuthContext } from '../../../auth/auth.context.js'
+import { CreateTodoUseCase } from './create-todo.use-case.js'
+import { CreateTodoCommand } from './create-todo.command.js'
+import { CreateTodoResponse } from './create-todo.response.js'
+
 @ApiTags('Todo')
 @Controller('todos')
 export class CreateTodoController {
@@ -719,7 +734,7 @@ export class CreateTodoController {
 
   @Post()
   @ApiCreatedResponse({ type: CreateTodoResponse })
-  @Permission([Permissions.TODO_CREATE])
+  @Permissions([Permission.TODO_CREATE])
   async createTodo (
     @Body() createTodoCommand: CreateTodoCommand,
   ): Promise<CreateTodoResponse> {
