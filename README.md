@@ -27,13 +27,22 @@ brew install node
 pnpm install
 ```
 
-5. Start the local server to start the codelab
+5. **Apple Silicon Mac users only:** Install Rosetta 2 if you haven't already
+   
+   CLAAT (the codelab tool) only provides Intel binaries, so Apple Silicon Macs need Rosetta 2 to run them.
+   ```shell
+   softwareupdate --install-rosetta --agree-to-license
+   ```
+   
+   If you skip this step, you'll see an error like `Bad CPU type in executable` when running the server.
+
+6. Start the local server to start the codelab
 ```shell
 pnpm docs:serve
 ```
 
-6. Open the [codelab](http://127.0.0.1:8080) in your browser to get started
-7. Profit 😎
+7. Open the [codelab](http://127.0.0.1:8080) in your browser to get started
+8. Profit 😎
 
 
 ## Got any questions or suggestions?
