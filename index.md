@@ -181,6 +181,53 @@ We apply a vertical slice architecture to split code into isolated business use 
 ### File naming conventions
 As a general rule, we use kebab-case for filenames and folders. We name files based on their purpose and type. For example, a command file for creating a contact would be named `create-contact.command.ts`.
 
+## Code Quality & Linting
+
+### Why a hybrid linting system?
+
+We use a **hybrid linting setup** that combines [OXC](https://oxc.rs/) and [ESLint](https://eslint.org/). Here's why:
+
+- **OXC** is a blazing-fast Rust-based linter. It runs significantly faster than ESLint and covers a large and growing set of lint rules out of the box.
+- **ESLint** is slower but has a rich ecosystem of plugins that cover rules OXC does not (yet) support.
+
+Rather than running ESLint for everything — which is slow — we only enable ESLint rules that have **no OXC equivalent**. This gives us the best of both worlds: the speed of OXC for the majority of checks, and the completeness of ESLint for the rest.
+
+### VS Code Setup
+
+To make both linters and the formatter work correctly in VS Code, you need the following extensions installed:
+
+- **[OXC](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode)** — Fast linter powered by OXC
+- **[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)** — ESLint integration for VS Code
+- **[oxfmt](https://marketplace.visualstudio.com/items?itemName=YoavCohen.oxfmt)** — Formatter backed by OXC
+
+> Make sure all three extensions are enabled in your workspace.
+
+Additionally, add the following setting to your VS Code user or workspace settings (`settings.json`) to ensure imports are always generated as non-relative paths:
+
+```json
+{
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "[json]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.oxc": "explicit",
+  },
+  "oxc.enable.oxfmt": true,
+  "oxc.enable": true,
+}
+```
+
+This ensures that auto-imported paths follow our module alias convention instead of generating fragile relative paths like `../../modules/...`.
+
 ## PART 2: Todo App Backend
 The goal is to create a robust backend system that allows users to perform CRUD operations on todo items.
 
