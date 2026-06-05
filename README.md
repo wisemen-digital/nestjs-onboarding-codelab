@@ -1,19 +1,21 @@
-# Onboarding Codelab Node.js
+# Wisemen Full Stack Onboarding Codelab
 
 Howdy! Glad to see you here partner 🤠
-Welcome the ranch
+Welcome to the ranch
+
+This repository contains the **Wisemen Full Stack Onboarding** codelab: new colleagues build a complete to-do app — a NestJS backend **and** the Vue frontend that consumes it — based on the [wisemen-project-template](https://github.com/wisemen-digital/wisemen-project-template).
 
 ## How do I get started?
 
 1. Clone this repository
 ```shell
-git clone https://github.com/wisemen-digital/onboarding-codelab-backend.git
+git clone https://github.com/wisemen-digital/nestjs-onboarding-codelab.git
 ```
 
 2. Open the cloned repo
 
 ```shell
-cd onboarding-codelab-backend
+cd nestjs-onboarding-codelab
 ```
 
 3. Verfiy your installation of node and install Node if you don't have it already
